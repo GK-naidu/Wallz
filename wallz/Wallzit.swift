@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct ImageData: Identifiable, Decodable {
+struct ImageData: Identifiable, Decodable,Hashable {
     let id: String
     let name: String
     let url: String
@@ -21,3 +21,8 @@ struct ImageData: Identifiable, Decodable {
     }
 }
 
+struct Favourite: Identifiable,Hashable {
+    let id = UUID()
+    let url: String
+    
+}

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9C093C112B811730000011A2 /* Wallzit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C093C102B811730000011A2 /* Wallzit.swift */; };
+		9C467BCD2B8B482300DC6D0C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C467BCC2B8B482300DC6D0C /* HomeView.swift */; };
+		9C467BCF2B8B486E00DC6D0C /* FavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */; };
+		9C467BD12B8B48D400DC6D0C /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C467BD02B8B48D400DC6D0C /* MyProfile.swift */; };
+		9C9BE2E82B8A6EAF007185C2 /* WallScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9BE2E72B8A6EAF007185C2 /* WallScreen.swift */; };
 		9CD8F6E52B7936E100321E0F /* wallzApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8F6E42B7936E100321E0F /* wallzApp.swift */; };
 		9CD8F6E72B7936E100321E0F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8F6E62B7936E100321E0F /* ContentView.swift */; };
 		9CD8F6E92B7936E300321E0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CD8F6E82B7936E300321E0F /* Assets.xcassets */; };
@@ -16,6 +20,10 @@
 
 /* Begin PBXFileReference section */
 		9C093C102B811730000011A2 /* Wallzit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wallzit.swift; sourceTree = "<group>"; };
+		9C467BCC2B8B482300DC6D0C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteView.swift; sourceTree = "<group>"; };
+		9C467BD02B8B48D400DC6D0C /* MyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfile.swift; sourceTree = "<group>"; };
+		9C9BE2E72B8A6EAF007185C2 /* WallScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallScreen.swift; sourceTree = "<group>"; };
 		9CD8F6E12B7936E100321E0F /* wallz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wallz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD8F6E42B7936E100321E0F /* wallzApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wallzApp.swift; sourceTree = "<group>"; };
 		9CD8F6E62B7936E100321E0F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -55,6 +63,10 @@
 			children = (
 				9CD8F6E42B7936E100321E0F /* wallzApp.swift */,
 				9CD8F6E62B7936E100321E0F /* ContentView.swift */,
+				9C467BCC2B8B482300DC6D0C /* HomeView.swift */,
+				9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */,
+				9C467BD02B8B48D400DC6D0C /* MyProfile.swift */,
+				9C9BE2E72B8A6EAF007185C2 /* WallScreen.swift */,
 				9C093C102B811730000011A2 /* Wallzit.swift */,
 				9CD8F6E82B7936E300321E0F /* Assets.xcassets */,
 				9CD8F6EA2B7936E300321E0F /* Preview Content */,
@@ -143,6 +155,10 @@
 				9C093C112B811730000011A2 /* Wallzit.swift in Sources */,
 				9CD8F6E72B7936E100321E0F /* ContentView.swift in Sources */,
 				9CD8F6E52B7936E100321E0F /* wallzApp.swift in Sources */,
+				9C467BCD2B8B482300DC6D0C /* HomeView.swift in Sources */,
+				9C467BD12B8B48D400DC6D0C /* MyProfile.swift in Sources */,
+				9C467BCF2B8B486E00DC6D0C /* FavouriteView.swift in Sources */,
+				9C9BE2E82B8A6EAF007185C2 /* WallScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +295,7 @@
 				DEVELOPMENT_TEAM = 767TND7ZLG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photo library to save downloaded images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -308,6 +325,7 @@
 				DEVELOPMENT_TEAM = 767TND7ZLG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photo library to save downloaded images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
