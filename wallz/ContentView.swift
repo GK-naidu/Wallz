@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var favorites: [Favourite] = []
+    
 
     var body: some View {
         TabView {
@@ -10,7 +11,8 @@ struct ContentView: View {
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-            FavouriteView(favourites: $favorites)
+            FavouriteView(Favouritte: $favorites )
+            
                 .tabItem {
                     Label("Favorites", systemImage: "heart")
                 }

@@ -23,6 +23,19 @@ struct ImageData: Identifiable, Decodable,Hashable {
 
 struct Favourite: Identifiable,Hashable {
     let id = UUID()
-    let url: String
+    let url :  String
     
+}
+
+struct GitHubUser : Codable {
+    let login : String
+    
+    let bio : String
+    let avatarUrl : String
+}
+
+enum GHError : Error {
+    case invalidURL
+    case invalidData
+    case invalidsomething
 }

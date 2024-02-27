@@ -7,24 +7,28 @@
 
 import SwiftUI
 
-struct HomeView: View {
-    
-        
+public struct HomeView: View {
         @State private var data: [ImageData] = []
         @State private var selectedImage: ImageData?
-          @Binding var favorites: [Favourite]
+        @State var showSplash: Bool = false
+        @Binding var favorites: [Favourite]
         let columns = [
             GridItem(),
             GridItem()
         ]
         
-        var body: some View {
-            NavigationStack
-            {
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(data) { item in
-                            NavigationLink(value: item) {
+    public var body: some View {
+        
+        NavigationStack {
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [Color.gray, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                              .opacity(0.5)
+                              .blur(radius: 10)
+                              .ignoresSafeArea()
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 10) {
+                    ForEach(data) { item in
+                        NavigationLink(value: item) {
                             AsyncImage(url: URL(string: item.url)!) { phase in
                                 
                                 if let image = phase.image {
@@ -43,27 +47,35 @@ struct HomeView: View {
                                         .cornerRadius(20)
                                 }
                             }
+                            .shadow(radius: 9)
                             .padding()
                             
                         }
-                            .onTapGesture {
-                                selectedImage = item
-                            }
+                        .onTapGesture {
+                            selectedImage = item
                         }
                     }
-                    .padding()
-                    .onAppear {
-                        loadData()
-                    }
                 }
+                .padding()
+                .onAppear {
+                    loadData()
+                    }
+                    
+                     
+                    
+                    
+                
+            }
+        }
                 .navigationDestination(for: ImageData.self) { image in
-                    WallScreen(imageData: image, favourite: Favourite(url: image.url))
+
+                    WallScreen(favourite: Favourite(url: image.url), imageData: image)
                   }
                 .navigationDestination(for: Favourite.self) { favourite in
-                       FavouriteView(favourites: $favorites)
+                    FavouriteView(Favouritte: $favorites)
                    }
-                .navigationTitle("Wallz")
-                .navigationBarTitleDisplayMode(.inline)
+//                .navigationTitle("Wallz")
+//                .navigationBarTitleDisplayMode(.inline)
             }
             
         }
@@ -88,5 +100,10 @@ struct HomeView: View {
             .resume()
         }
     }
+
+
+
+
+
 
 

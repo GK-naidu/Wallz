@@ -12,52 +12,60 @@ import Photos
 
 
 struct WallScreen: View {
-    let imageData : ImageData?
     let favourite: Favourite
-    @State private var isFavourite: Bool = false
-    @State private var favourites: [Favourite] = []
+    let imageData : ImageData?
+    @State private var  isFavourite: Bool = false
+    @State  var favourites: [Favourite] = []
+    @State private var downloadAlert = false
 
-
+  
+  
     
-//    
-//    public init(imageData: ImageData?, favorite: Favourite, isFavorite: Bool) {
-//            self.imageData = imageData
-//            self.favourite = favorite
-//            self._isFavourite = State(initialValue: isFavourite)
-//            
-//        }
     private func toggleFavorite() {
+        
         if isFavourite {
             if let index = favourites.firstIndex(where: { $0.id == favourite.id }) {
                 favourites.remove(at: index)
             }
+            
         } else {
+            
+            
             favourites.append(favourite)
+             
+            
+            
         }
         isFavourite.toggle()
     }
     
+
     
     var body: some View {
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color.gray, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                .opacity(0.6)
+                .blur(radius: 12)
+                .ignoresSafeArea()
         VStack{
-            AsyncImage(url: URL(string: imageData?.url ?? "")) { phase in
-                            if let image = phase.image {
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 250, height: 500)
-                                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                                    .padding()
-                            } else {
-                                ProgressView()
-                                    .frame(width: 250, height: 500)
-                                    .padding()
-                            }
-                        }
+            AsyncImage(url: URL(string: imageData?.url ?? "" )) { phase in
+                if let image = phase.image {
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 250, height: 500)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding()
+                } else {
+                    ProgressView()
+                        .frame(width: 250, height: 500)
+                        .padding()
+                }
+            }
             
             HStack {
                 Button(action: {
-                    if let url = URL(string: imageData?.url ?? "") {
+                    if let url = URL(string: imageData?.url ?? "" ) {
                         URLSession.shared.dataTask(with: url) { data, response, error in
                             if let data = data, let image = UIImage(data: data) {
                                 PHPhotoLibrary.requestAuthorization { status in
@@ -66,9 +74,9 @@ struct WallScreen: View {
                                             PHAssetChangeRequest.creationRequestForAsset(from: image)
                                         }, completionHandler: { success, error in
                                             if success {
-                                                print("Image saved to Photos app")
+                                                downloadAlert = true
                                             } else if let error = error {
-                                                print("Error saving image to Photos app: \(error)")
+                                                downloadAlert = false
                                             }
                                         })
                                     } else {
@@ -89,6 +97,8 @@ struct WallScreen: View {
                         .padding()
                         .frame(maxWidth: 150)
                         .background(RoundedRectangle(cornerRadius: 20).foregroundStyle(.black))
+                }.alert("Download Successful", isPresented: $downloadAlert) {
+                    Button("OK", role: .cancel) { }
                 }
                 
                 .padding()
@@ -107,12 +117,14 @@ struct WallScreen: View {
                         .frame(width: 50,height: 50)
                         .foregroundStyle(Color.black)
                         .padding()
-
+                    
                 }
-
+                
             }
         }
         .ignoresSafeArea()
+        
+    }
         
     }
     
