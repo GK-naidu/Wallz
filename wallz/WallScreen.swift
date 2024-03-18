@@ -1,46 +1,32 @@
-//
-//  WallScreen.swift
-//  wallz
-//
-//  Created by G.K.Naidu on 25/02/24.
-//
+
 
 import SwiftUI
 import Photos
 
-
-
-
 struct WallScreen: View {
-    let favourite: Favourite
-    let imageData : ImageData?
+    
+    let favourite : String?
+  @State var imageData : ImageData?
     @State private var  isFavourite: Bool = false
-    @State  var favourites: [Favourite] = []
+   @State var favouriteWallz: [String]
     @State private var downloadAlert = false
-
-  
-  
     
-    private func toggleFavorite() {
-        
-        if isFavourite {
-            if let index = favourites.firstIndex(where: { $0.id == favourite.id }) {
-                favourites.remove(at: index)
+
+    private mutating func toggleFavorite() {
+        if let url = imageData?.url {
+            if isFavourite {
+                FavouriteView(FavouriteList: $favouriteWallz)
             }
-            
-        } else {
-            
-            
-            favourites.append(favourite)
-             
-            
-            
+            else {
+                if let index = favouriteWallz.firstIndex(of: url) {
+                    favouriteWallz.remove(at: index)
+                    
+                }
+                print("\(favouriteWallz.count)")
+            }
         }
-        isFavourite.toggle()
     }
-    
 
-    
     var body: some View {
         ZStack {
             LinearGradient(gradient: Gradient(colors: [Color.gray, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
@@ -75,7 +61,7 @@ struct WallScreen: View {
                                         }, completionHandler: { success, error in
                                             if success {
                                                 downloadAlert = true
-                                            } else if let error = error {
+                                            } else if error != nil {
                                                 downloadAlert = false
                                             }
                                         })
@@ -100,11 +86,11 @@ struct WallScreen: View {
                 }.alert("Download Successful", isPresented: $downloadAlert) {
                     Button("OK", role: .cancel) { }
                 }
-                
                 .padding()
                 
                 Button {
-                    toggleFavorite()
+                    isFavourite = true
+                    self.toggleFavorite()
                 } label: {
                     Circle()
                         .overlay(content: {
@@ -119,6 +105,12 @@ struct WallScreen: View {
                         .padding()
                     
                 }
+                .onTapGesture {
+                    
+                    print("The url is \(imageData?.url ?? "Nil hey bro")")
+
+                    
+                }
                 
             }
         }
@@ -131,6 +123,7 @@ struct WallScreen: View {
 
     
 }
+
 
 
 

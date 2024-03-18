@@ -11,7 +11,7 @@ public struct HomeView: View {
         @State private var data: [ImageData] = []
         @State private var selectedImage: ImageData?
         @State var showSplash: Bool = false
-        @Binding var favorites: [Favourite]
+        
         let columns = [
             GridItem(),
             GridItem()
@@ -29,6 +29,7 @@ public struct HomeView: View {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(data) { item in
                         NavigationLink(value: item) {
+                            
                             AsyncImage(url: URL(string: item.url)!) { phase in
                                 
                                 if let image = phase.image {
@@ -60,22 +61,16 @@ public struct HomeView: View {
                 .onAppear {
                     loadData()
                     }
-                    
-                     
-                    
-                    
-                
             }
         }
                 .navigationDestination(for: ImageData.self) { image in
-
-                    WallScreen(favourite: Favourite(url: image.url), imageData: image)
+                    WallScreen( favourite: "", imageData: image, favouriteWallz: [""])
                   }
-                .navigationDestination(for: Favourite.self) { favourite in
-                    FavouriteView(Favouritte: $favorites)
-                   }
+            
+            
+            
+            //MARK: - Navigation Title
 //                .navigationTitle("Wallz")
-//                .navigationBarTitleDisplayMode(.inline)
             }
             
         }

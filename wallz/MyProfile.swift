@@ -73,6 +73,11 @@ struct MyProfile: View {
     }
 }
 
-#Preview {
-    MyProfile()
-}
+
+
+
+
+
+
+
+

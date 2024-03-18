@@ -21,11 +21,11 @@ struct ImageData: Identifiable, Decodable,Hashable {
     }
 }
 
-struct Favourite: Identifiable,Hashable {
-    let id = UUID()
-    let url :  String
-    
-}
+//struct Favourite: Identifiable,Hashable {
+//    let id : String
+//    let url :  String
+//    
+//}
 
 struct GitHubUser : Codable {
     let login : String

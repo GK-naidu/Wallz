@@ -2,16 +2,16 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var favorites: [Favourite] = []
+    @State private var favorites: [String] = []
     
 
     var body: some View {
         TabView {
-            HomeView (favorites: $favorites)
+            HomeView ()
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-            FavouriteView(Favouritte: $favorites )
+            FavouriteView(FavouriteList: $favorites)
             
                 .tabItem {
                     Label("Favorites", systemImage: "heart")
@@ -21,6 +21,7 @@ struct ContentView: View {
                     Label("Profile", systemImage: "person")
                 }
         }
+      
         
     }
 }
