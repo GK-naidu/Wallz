@@ -11,6 +11,7 @@ public struct HomeView: View {
         @State private var data: [ImageData] = []
         @State private var selectedImage: ImageData?
         @State var showSplash: Bool = false
+    @State var Hfavwalls = ContentView().favoritesWallpaper
         
         let columns = [
             GridItem(),
@@ -21,9 +22,9 @@ public struct HomeView: View {
         
         NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color.gray, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                              .opacity(0.5)
-                              .blur(radius: 10)
+                LinearGradient(gradient: Gradient(colors: [Color.black, Color.red]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                              
+//                              .blur(radius: 10)
                               .ignoresSafeArea()
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
@@ -64,7 +65,7 @@ public struct HomeView: View {
             }
         }
                 .navigationDestination(for: ImageData.self) { image in
-                    WallScreen( favourite: "", imageData: image, favouriteWallz: [""])
+                    WallScreen(imageData: image)
                   }
             
             
@@ -72,8 +73,10 @@ public struct HomeView: View {
             //MARK: - Navigation Title
 //                .navigationTitle("Wallz")
             }
-            
+        .onAppear{
+            print("Home count : \(Hfavwalls.count)")
         }
+    }
         
         private func loadData() {
             guard let url = URL(string: "https://wallpaper-api-p0xg.onrender.com/api") else { return }
@@ -93,8 +96,11 @@ public struct HomeView: View {
                 }
             }
             .resume()
+            
         }
+        
     }
+    
 
 
 

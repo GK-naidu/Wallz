@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FavouriteView: View {
     
-    @Binding var FavouriteList : [String]
+    @State var favwalls = ContentView().favoritesWallpaper
     
     
     
@@ -17,49 +17,54 @@ struct FavouriteView: View {
         GridItem(),
         GridItem()
     ]
-   
+    
     var body: some View {
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 10) {
-                         
-                        if FavouriteList != nil {
-                            
-                            ForEach(FavouriteList, id: \.self) { favourite in
-                                AsyncImage(url: URL(string: favourite)) { phase in
-                                    if let image = phase.image {
-                                        
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 150, height: 350)
-                                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                                        
-                                    } else {
-                                        ProgressView()
-                                            .frame(width: 150, height: 350)
-                                            .background(Color.gray)
-                                            .cornerRadius(20)
-                                        
-                                    }
-                                }
-                                .padding()
-                            }
-                            
-                        }
-                        }
-                        
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 10) {
+                
+                if favwalls.isEmpty == false {
                     
-                    .padding()
-                }.onAppear{
-                    print("\(FavouriteList .count)")
+                    ForEach(favwalls, id: \.self) { favourite in
+                        AsyncImage(url: URL(string: favourite)) { phase in
+                            if let image = phase.image {
+                                
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 150, height: 350)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                
+                            } else {
+                                ProgressView()
+                                    .frame(width: 150, height: 350)
+                                    .background(Color.gray)
+                                    .cornerRadius(20)
+                                
+                            }
+                        }
+                        .padding()
+                    }
+                    
                 }
- 
+                
+                else {
+                    Spacer()
+                    Text ( "Nothing liked yet")
+                        .font(.largeTitle)
+                    Spacer()
+                }
+            }
+            
+            .padding()
+        }.onAppear{
+            print("Favrt \(favwalls.count)")
+        }
+        
     }
 }
 
 
 
-
-
-
-
+#Preview {
+    FavouriteView(favwalls: ["#Preview"])
+}
