@@ -21,9 +21,9 @@ struct ImageData: Identifiable, Decodable,Hashable {
     }
 }
 
-//struct Favourite: Identifiable,Hashable {
-//    let id : String
-//    let url :  String
+//struct Favourite: Codable {
+//
+//    let url :  [String] = []
 //    
 //}
 

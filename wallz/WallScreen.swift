@@ -1,33 +1,63 @@
-
-
 import SwiftUI
 import Photos
 
+
+class FavouriteWallpapersModel: ObservableObject {
+    @Published var favouriteWallpapers: [String] = []
+    
+    init() {
+        if let savedWallpapers = UserDefaults.standard.array(forKey: "favouriteWallpapers") as? [String] {
+            favouriteWallpapers = savedWallpapers
+        }
+    }
+    
+    func toggleFavorite(_ url: String) {
+        if favouriteWallpapers.contains(url) {
+            favouriteWallpapers.removeAll { $0 == url }
+        } else {
+            favouriteWallpapers.append(url)
+        }
+        saveWallpapers()
+    }
+    
+    private func saveWallpapers() {
+        UserDefaults.standard.set(favouriteWallpapers, forKey: "favouriteWallpapers")
+    }
+}
+
+
 struct WallScreen: View {
-    
-    @State var favWallpaper = ContentView().favoritesWallpaper
-    
+  
     @State var imageData : ImageData?
+    
     @State private var  isFavourite: Bool = false
     
     @State private var downloadAlert = false
     
+    @State private var buttonPressed = 0
     
-    private  func toggleFavorite() {
-        if let url = imageData?.url {
-            if isFavourite {
-                favWallpaper.append(url)
-                print("toggle \(favWallpaper.count)")
-//                isFavourite = false
-            }
-            else {
-                if let index = favWallpaper.firstIndex(of: url) {
-                    favWallpaper.remove(at: index)
-                    
-                }
-            }
-        }
+//    @State private var favouriteWallpapers: [String] = []
+    @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
+    
+    
+     func FavouriteWallpaper( favWall string : String )  {
         
+        let userdefaults = UserDefaults.standard
+        
+        var favwalls : [String] = userdefaults.object(forKey: "favWALL") as? [String] ?? []
+       
+        if buttonPressed == 1 && isFavourite {
+            
+            favwalls.append(string)
+            userdefaults.set(favwalls,forKey: "favWALL")
+   
+        }
+        else  {
+         print("else from favouriteWallpaper loaded")
+        }
+       
+        
+
     }
     
     var body: some View {
@@ -95,9 +125,7 @@ struct WallScreen: View {
                    
                     
                     Button(action: {
-                        isFavourite = true
-                        self.toggleFavorite()
-                        
+                        favouriteWallpapersModel.toggleFavorite(imageData?.url ?? "")
                     }) {
                         Circle()
                             .overlay(content: {
@@ -110,9 +138,7 @@ struct WallScreen: View {
                             .frame(width: 50,height: 50)
                             .foregroundStyle(Color.black)
                             .padding()
-                            .onTapGesture {
-                                print("Wfavs : \(favWallpaper.count)")
-                            }
+
                         
                     }
                  
@@ -122,3 +148,7 @@ struct WallScreen: View {
         }
     }
 }
+
+
+
+

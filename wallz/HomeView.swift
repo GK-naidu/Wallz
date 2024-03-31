@@ -11,8 +11,7 @@ public struct HomeView: View {
         @State private var data: [ImageData] = []
         @State private var selectedImage: ImageData?
         @State var showSplash: Bool = false
-    @State var Hfavwalls = ContentView().favoritesWallpaper
-        
+ 
         let columns = [
             GridItem(),
             GridItem()
@@ -22,10 +21,8 @@ public struct HomeView: View {
         
         NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color.black, Color.red]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                              
-//                              .blur(radius: 10)
-                              .ignoresSafeArea()
+                LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .ignoresSafeArea()
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(data) { item in
@@ -34,7 +31,6 @@ public struct HomeView: View {
                             AsyncImage(url: URL(string: item.url)!) { phase in
                                 
                                 if let image = phase.image {
-                                    
                                     image
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
@@ -61,6 +57,7 @@ public struct HomeView: View {
                 .padding()
                 .onAppear {
                     loadData()
+                    
                     }
             }
         }
@@ -73,9 +70,7 @@ public struct HomeView: View {
             //MARK: - Navigation Title
 //                .navigationTitle("Wallz")
             }
-        .onAppear{
-            print("Home count : \(Hfavwalls.count)")
-        }
+       
     }
         
         private func loadData() {
