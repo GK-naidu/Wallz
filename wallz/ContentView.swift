@@ -5,7 +5,6 @@ import SwiftUI
 
 struct ContentView: View {
     
-//    @State private var contentWall = ["https://res.cloudinary.com/dq0rchxli/image/upload/v1711601527/d9xpx0xieqj7bn1bwxvy.jpg"]
     
     @StateObject private var favouriteWallpapersModel = FavouriteWallpapersModel()
     
@@ -15,19 +14,28 @@ struct ContentView: View {
             
             HomeView ()
                 .tabItem {
-                    Label("Home", systemImage: "house")
+                    Label("Popular", systemImage: "flame.circle.fill")
+                    
                        
                 }
+            
+            
+                        Categories()
+                .tabItem {
+                    Label("Categories", systemImage: "square.stack.3d.up.fill")
+                    
+                }
+            
             FavouriteView()
                 .environmentObject(favouriteWallpapersModel)
                 .tabItem {
-                    Label("Favorites", systemImage: "heart")
-                        
+                    Label("Liked",systemImage: "hand.thumbsup.fill")
                 }
+
             
             MyProfile()
                 .tabItem {
-                    Label("Profile", systemImage: "person")
+                    Label("Profile", systemImage: "person.fill")
                         
                 }
         }.tint(Color.primary)

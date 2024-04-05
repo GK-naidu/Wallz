@@ -63,6 +63,7 @@ public struct HomeView: View {
         }
                 .navigationDestination(for: ImageData.self) { image in
                     WallScreen(imageData: image)
+                    
                   }
             
             
@@ -94,12 +95,6 @@ public struct HomeView: View {
             
         }
         
+    
     }
     
-
-
-
-
-
-
-
