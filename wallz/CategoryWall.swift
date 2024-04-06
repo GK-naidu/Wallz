@@ -36,7 +36,7 @@ struct CategoryWall: View {
         GridItem()
     ]
 
-    @State var imageData : ImageData?
+    @State var categoryData : CategoryData?
 
     @State private var  isFavourite: Bool = false
 
@@ -47,8 +47,9 @@ struct CategoryWall: View {
     @State private var extractedColors: [UIColor] = []
 
 
-    @EnvironmentObject var favouriteWallpapersModel: LikedWallpapersModel
+    @EnvironmentObject var LikedWallpapersModel: LikedWallpapersModel
 
+    
 
      func FavouriteWallpaper( favWall string : String )  {
 
@@ -72,7 +73,7 @@ struct CategoryWall: View {
             LinearGradient(gradient: Gradient(colors: [Color.black, Color.red]), startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
             VStack{
-                AsyncImage(url: URL(string: imageData?.url ?? "" )) { phase in
+                AsyncImage(url: URL(string: categoryData?.url ?? "" )) { phase in
                     if let image = phase.image {
                         image
                             .resizable()
@@ -94,7 +95,7 @@ struct CategoryWall: View {
 
                     //MARK: -  download button
                     Button(action: {
-                        if let url = URL(string: imageData?.url ?? "" ) {
+                        if let url = URL(string: categoryData?.url ?? "" ) {
                             URLSession.shared.dataTask(with: url) { data, response, error in
                                 if let data = data, let image = UIImage(data: data) {
                                     PHPhotoLibrary.requestAuthorization { status in
@@ -134,7 +135,7 @@ struct CategoryWall: View {
 
                     //MARK: -  Favourite Button
                     Button(action: {
-                        favouriteWallpapersModel.toggleFavorite(imageData?.url ?? "")
+                        LikedWallpapersModel.toggleFavorite(categoryData?.url ?? "")
                     }) {
                         Circle()
                             .overlay(content: {

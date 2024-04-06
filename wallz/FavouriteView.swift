@@ -3,6 +3,8 @@ import SwiftUI
 
 struct FavouriteView: View {
     @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
+    @GestureState var press = false
+    @State var show = false
 
     var body: some View {
         if !favouriteWallpapersModel.favouriteWallpapers.isEmpty {
@@ -24,6 +26,8 @@ struct FavouriteView: View {
                                     .cornerRadius(20)
                             }
                         }
+                        
+                    
                         .padding()
                     }
                 }

@@ -22,14 +22,16 @@ public class CategoryViewModel: ObservableObject {
      @Binding  var selectedCategory: String?
     @ObservedObject private var viewModel = CategoryViewModel()
     private var cancellable: AnyCancellable? = nil
-    
+     
+     let likedWallpapersModel = LikedWallpapersModel()
+     
     let columns = [
         GridItem(),
         GridItem()
     ]
     
-    @State private var data: [ImageData] = []
-    @State private var selectedImage: ImageData?
+    @State private var data: [CategoryData] = []
+    @State private var selectedImage: CategoryData?
 
     @State private var showWallscreen : Bool = false
      
@@ -39,7 +41,7 @@ public class CategoryViewModel: ObservableObject {
     
     
      public  var body: some View {
-         
+         NavigationStack {
              ZStack {
                  LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
                      .ignoresSafeArea()
@@ -69,7 +71,7 @@ public class CategoryViewModel: ObservableObject {
                                  .padding()
                                  
                              }
-                                              
+                             
                              .onTapGesture {
                                  selectedImage = item
                                  showWallscreen = true
@@ -90,13 +92,14 @@ public class CategoryViewModel: ObservableObject {
                      
                      
                  }
-                 .sheet(isPresented: $showWallscreen) {
-                     CategoryWall()
+                 .navigationDestination(for: CategoryData.self) { category in
+                     CategoryWall(categoryData: category)
+                         .environmentObject(likedWallpapersModel)
                  }
-              
+                 
              }
-  
-    } 
+         }
+    }
     
     func loadcategoriesData() {
         guard let category = selectedCategory, let url = URL(string: "https://wallpaper-api-p0xg.onrender.com/api?categories=\(category)") else { return }
@@ -105,7 +108,7 @@ public class CategoryViewModel: ObservableObject {
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 do {
-                    let decodedData = try JSONDecoder().decode([ImageData].self, from: data)
+                    let decodedData = try JSONDecoder().decode([CategoryData].self, from: data)
                     DispatchQueue.main.async {
                         self.data = decodedData
                     }

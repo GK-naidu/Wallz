@@ -70,9 +70,13 @@ public struct Categories: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $showCategoryView) {
-                categoryView(selectedCategory: $selectedCategory)
-            }
+//            .navigationDestination(isPresented: $showCategoryView) {
+//                categoryView(selectedCategory: $selectedCategory)
+//            }
+            .sheet(isPresented: $showCategoryView) {
+                     categoryView(selectedCategory: $selectedCategory)
+                 }
+        
         }
     }
 }
