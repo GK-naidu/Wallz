@@ -1,6 +1,7 @@
 import SwiftUI
 import Photos
 import UIKit
+import RiveRuntime
 
 
 
@@ -44,7 +45,6 @@ struct WallScreen: View {
     @State private var buttonPressed = 0
 
     @State private var extractedColors: [UIColor] = []
-
 
     @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
 
@@ -102,9 +102,11 @@ struct WallScreen: View {
                                                 PHAssetChangeRequest.creationRequestForAsset(from: image)
                                             }, completionHandler: { success, error in
                                                 if success {
-                                                    downloadAlert = true
+                                                  downloadAlert = true
+                                                    
                                                 } else if error != nil {
                                                     downloadAlert = false
+                                                    
                                                 }
                                             })
                                         } else {
@@ -125,10 +127,11 @@ struct WallScreen: View {
                             .padding()
                             .frame(maxWidth: 150)
                             .background(RoundedRectangle(cornerRadius: 20).foregroundStyle(.black))
+                         
                     }
-                    .alert("Download Successful", isPresented: $downloadAlert) {
-                        Button("OK", role: .cancel) { }
-                    }
+//                    .alert("Download Successful", isPresented: $downloadAlert) {
+//                        Button("OK", role: .cancel) { }
+//                    }
                     .padding()
 
                     //MARK: -  Favourite Button
@@ -153,6 +156,16 @@ struct WallScreen: View {
                 }
             }
             .ignoresSafeArea()
+        }   .overlay {
+            if downloadAlert == true {
+                
+                RiveViewModel(fileName: "DownloadAnimation").view()
+                    .frame(width: 200,height: 200)
+                    .padding()
+                    
+                
+            }
         }
     }
+        
 }

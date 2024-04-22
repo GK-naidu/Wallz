@@ -11,7 +11,8 @@ import SwiftUI
 struct wallzApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RiveView()
+            
         }
     }
 }

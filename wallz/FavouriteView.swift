@@ -23,12 +23,6 @@ struct FavouriteView: View {
                                     .frame(width: 150, height: 350)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
                                     .contextMenu{
-                                        Button("UnLike") {
-                                            
-                                            print("Unliked")
-                                            favouriteWallpapersModel.favouriteWallpapers.removeAll{$0 == favourite}
-                                            
-                                        }
                                         Button(action: {
                                             if let url = URL(string: favourite ) {
                                                 URLSession.shared.dataTask(with: url) { data, response, error in
@@ -83,7 +77,7 @@ struct FavouriteView: View {
                     }
                     
                 }
-            }
+            }.scrollIndicators(.hidden)
             .padding()
         }
         else {

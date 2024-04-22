@@ -3,76 +3,99 @@
 //  wallz
 //
 //  Created by G.K.Naidu on 25/02/24.
-//
+
 
 import SwiftUI
 
-struct MyProfile: View {
-    @State private var user : GitHubUser?
-    var body: some View {
-        ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.white]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                .opacity(0.4)
-                .blur(radius: 13)
-                .ignoresSafeArea()
-            VStack {
-                Spacer()
-                AsyncImage(url: URL(string: user?.avatarUrl ?? "")) { image in
-                    image.resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .clipShape(Circle())
-                    
-                }placeholder: {
-                    Circle()
-                        .foregroundStyle(.secondary)
-                    
-                        .padding()
-                }.frame(width: 150,height: 150)
-                
-                
-                
-                
-                Text(user?.login ?? "Nil name")
-                    .fontWeight(.heavy)
-                
-                    .padding(.vertical)
-                
-                Text(user?.bio ?? "Nil Bio")
-                    .fontWeight(.medium)
-                    .padding(.vertical)
-                
-                
-                Spacer()
-                
-            }.task {
-                do {
-                    user = try await getUser()
-                }catch  {
-                    print("Invalid URL dude, check at Myprofile task")
-                }
-            }
+import SwiftUI
+
+struct profileModifer : ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 25))
+            .foregroundStyle(Color.primary)
+            .frame(maxWidth: 350,maxHeight: 70)
+            .background(RoundedRectangle(cornerRadius: 20))
             
-        }
+            .padding()
     }
     
-    func getUser() async throws -> GitHubUser {
-        let endpoint = "https://api.github.com/users/GK-naidu"
-        guard let url = URL(string:endpoint ) else {throw GHError.invalidURL }
-        let(data,response) = try await URLSession.shared.data(from: url)
-        guard let response = response as? HTTPURLResponse,response.statusCode == 200 else {
-            throw GHError.invalidData
-        }
-        do {
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            return try decoder.decode(GitHubUser.self, from: data)
-        }
-        catch {
-            throw GHError.invalidsomething
-        }
-    }
+    
 }
 
+struct MyProfile: View {
+    
+
+    var body: some View {
+//        ZStack {
+         
+            VStack {
+                
+                    AsyncImage(url: URL(string: "https://xsgames.co/randomusers/assets/avatars/pixel/36.jpg")) { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                                .shadow(radius: 10)
+                                .padding()
+                        }
+                        else {
+                            ProgressView()
+                        }
+                    }
+                    
+                    Text(" Hi, profile name")
+                    .font(.title)
+                    .foregroundStyle(Color.primary)
+    
+                Link("Privacy policy", destination: URL(string: "https://www.privacypolicy.com/")!)
+                    .foregroundStyle(Color.green)
+                    .modifier(profileModifer())
+    
+                Button(action: {
+                    
+                }) {
+                    Text("Rate our app")
+                        .foregroundStyle(Color.purple)
+                        .modifier(profileModifer())
+                       
+                    
+                }
+                
+                Button(action: {
+                    
+                }) {
+                    Text("background colour")
+                        .foregroundStyle(Color.yellow)
+                        .modifier(profileModifer())
+                    
+                }
+                
+                Button(action: {
+                    
+                }) {
+                    Text("Feature Request")
+                        .foregroundStyle(Color.blue)
+                        .modifier(profileModifer())
+                    
+                }
+                
+                
+                
+                Spacer()
+            }
+        
+//        }
+    }
+
+    
+}
+
+#Preview {
+    MyProfile()
+}
 
 
 

@@ -70,7 +70,7 @@ public struct Categories: View {
                     }
                 }
             }
-
+            .toolbar(.hidden)
             .sheet(isPresented: $showCategoryView) {
                      categoryView(selectedCategory: $selectedCategory)
                  }

@@ -102,8 +102,9 @@ public class CategoryViewModel: ObservableObject {
     }
     
     func loadcategoriesData() {
-        guard let category = selectedCategory, let url = URL(string: "https://wallpaper-api-p0xg.onrender.com/api?categories=\(category)") else { return }
+        guard let category = selectedCategory, let url = URL(string: "https://wallpaper-api-p0xg.onrender.com/api/testing?categories=\(category.lowercased())") else { return }
 
+//        guard let category = selectedCategory , let url = URL(string: "https://wallpaper-api-p0xg.onrender.com/api/testing?categories=\(category)?page=2") else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
