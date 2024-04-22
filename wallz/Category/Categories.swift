@@ -34,6 +34,8 @@ public struct Categories: View {
     public var body: some View {
         NavigationStack {
             ZStack {
+                LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .ignoresSafeArea()
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 5) {
                         ForEach(Array(categoriesArray.enumerated()), id: \.offset) { index, value in

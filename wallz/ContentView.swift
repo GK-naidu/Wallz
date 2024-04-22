@@ -11,19 +11,18 @@ struct ContentView: View {
     var body: some View {
         
         TabView {
+     
+                        Categories()
+                .tabItem {
+                    Label("Categories", systemImage: "square.stack.3d.up.fill")
+                    
+                }
             
             HomeView ()
                 .tabItem {
                     Label("Popular", systemImage: "flame.circle.fill")
                     
                        
-                }
-            
-            
-                        Categories()
-                .tabItem {
-                    Label("Categories", systemImage: "square.stack.3d.up.fill")
-                    
                 }
             
             FavouriteView()

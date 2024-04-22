@@ -21,7 +21,10 @@ public class CategoryViewModel: ObservableObject {
     
      @Binding  var selectedCategory: String?
     @ObservedObject private var viewModel = CategoryViewModel()
+     
+     @State private var page: Int = 1
     private var cancellable: AnyCancellable? = nil
+     @State private var isLoadingMore: Bool = false
      
      let likedWallpapersModel = LikedWallpapersModel()
      
@@ -29,8 +32,8 @@ public class CategoryViewModel: ObservableObject {
         GridItem(),
         GridItem()
     ]
-    
-    @State private var data: [CategoryData] = []
+     
+    @State private var categoryData: [CategoryData] = []
     @State private var selectedImage: CategoryData?
 
     @State private var showWallscreen : Bool = false
@@ -43,11 +46,11 @@ public class CategoryViewModel: ObservableObject {
      public  var body: some View {
          NavigationStack {
              ZStack {
-                 LinearGradient(gradient: Gradient(colors: [Color.yellow, Color.orange]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                 LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
                      .ignoresSafeArea()
                  ScrollView {
                      LazyVGrid(columns: columns, spacing: 10) {
-                         ForEach(data) { item in
+                         ForEach(categoryData) { item in
                              NavigationLink(value: item) {
                                  
                                  AsyncImage(url: URL(string: item.url)!) { phase in
@@ -71,53 +74,56 @@ public class CategoryViewModel: ObservableObject {
                                  .padding()
                                  
                              }
-                             
                              .onTapGesture {
                                  selectedImage = item
                                  showWallscreen = true
                              }
-                             
-                             
-                             
+                 
                              
                          }
                      }
                      .padding()
                      .onAppear {
-                         loadcategoriesData()
-                         
-                         
-                         
+                         loadcategoriesData(page: page)
+                 
                      }
-                     
-                     
+                     .onChange(of: categoryData.count) { oldValue, newValue in
+                         if !isLoadingMore && categoryData.count > 0 {
+                             isLoadingMore = true
+                             loadcategoriesData(page: page + 1)
+                             page += 1
+                             print("\(page)")
+                         }
+                     }
+         
                  }
                  .navigationDestination(for: CategoryData.self) { category in
                      CategoryWall(categoryData: category)
                          .environmentObject(likedWallpapersModel)
                  }
-                 
              }
          }
     }
     
-    func loadcategoriesData() {
-        guard let category = selectedCategory, let url = URL(string: "https://wallpaper-api-p0xg.onrender.com/api/testing?categories=\(category.lowercased())") else { return }
-
-//        guard let category = selectedCategory , let url = URL(string: "https://wallpaper-api-p0xg.onrender.com/api/testing?categories=\(category)?page=2") else { return }
+     func loadcategoriesData(page : Int) {
+        guard let category = selectedCategory, let url = URL(string: "https://long-lamb-cuff-links.cyclic.app/api/?categories=\(category.lowercased())&page=\(page)") else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 do {
                     let decodedData = try JSONDecoder().decode([CategoryData].self, from: data)
                     DispatchQueue.main.async {
-                        self.data = decodedData
+                        self.categoryData.append(contentsOf: decodedData)
+//                        self.categoryData = decodedData
+                        self.isLoadingMore = false
                     }
                 } catch {
                     print("Error decoding data: \(error)")
+                    isLoadingMore = false
                 }
             } else if let error = error {
                 print("Error fetching data: \(error)")
+                isLoadingMore = false
             }
             
         }

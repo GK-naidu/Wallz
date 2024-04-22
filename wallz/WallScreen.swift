@@ -68,7 +68,7 @@ struct WallScreen: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color.black, Color.red]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea()
             VStack{
                 AsyncImage(url: URL(string: imageData?.url ?? "" )) { phase in
@@ -79,9 +79,9 @@ struct WallScreen: View {
                             .frame(width: 250, height: 500)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .padding()
-                            .onAppear{
-                                
-                            }
+//                            .onAppear{
+//                                
+//                            }
                     } else {
                         ProgressView()
                             .frame(width: 250, height: 500)

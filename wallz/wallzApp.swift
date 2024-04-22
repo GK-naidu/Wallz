@@ -9,10 +9,31 @@ import SwiftUI
 
 @main
 struct wallzApp: App {
+    @Environment(\.scenePhase) private var scenePhase
     var body: some Scene {
         WindowGroup {
-            RiveView()
+//              RiveAnimationTest()
+            ContentView()
             
+        }
+        
+        .onChange(of: scenePhase,initial: true) { phase,intial  in
+            if phase == .active {
+
+                print("app just Launched")
+            }
+            else if phase == .background {
+                print("app just went into Background")
+            }
+            else if phase == .inactive {
+                print("app is InActive")
+                HomeView().loadData(page: 1)
+            }
+            else {
+                print("app is kboom ka")
+            }
+            
+                
         }
     }
 }

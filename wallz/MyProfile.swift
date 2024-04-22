@@ -25,10 +25,13 @@ struct profileModifer : ViewModifier {
 
 struct MyProfile: View {
     
+    @State private var userName : String = "NIL"
+   
 
     var body: some View {
-//        ZStack {
-         
+        ZStack {
+            LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                .ignoresSafeArea()
             VStack {
                 
                     AsyncImage(url: URL(string: "https://xsgames.co/randomusers/assets/avatars/pixel/36.jpg")) { phase in
@@ -45,10 +48,14 @@ struct MyProfile: View {
                             ProgressView()
                         }
                     }
-                    
-                    Text(" Hi, profile name")
+
+            
+                
+                Text("\(userName)")
                     .font(.title)
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color.white)
+                    .padding()
+                
     
                 Link("Privacy policy", destination: URL(string: "https://www.privacypolicy.com/")!)
                     .foregroundStyle(Color.green)
@@ -81,15 +88,18 @@ struct MyProfile: View {
                         .modifier(profileModifer())
                     
                 }
-                
-                
-                
+        
                 Spacer()
             }
         
-//        }
+        }
+        .onAppear{
+            userName = UserDefaults.standard.string(forKey: "NAME") ?? "Your name ?"
+            print(userName)
+        }
+  
     }
-
+        
     
 }
 
