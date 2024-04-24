@@ -47,6 +47,9 @@ struct WallScreen: View {
     @State private var extractedColors: [UIColor] = []
 
     @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
+    
+    @State private var showLockOverlay : Bool = false
+    @State private var showHomeOverlay : Bool = false
 
 
      func FavouriteWallpaper( favWall string : String )  {
@@ -79,9 +82,7 @@ struct WallScreen: View {
                             .frame(width: 250, height: 500)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .padding()
-//                            .onAppear{
-//                                
-//                            }
+
                     } else {
                         ProgressView()
                             .frame(width: 250, height: 500)
@@ -121,17 +122,19 @@ struct WallScreen: View {
                             .resume()
                         }
                     }) {
-                        Text("Download")
-                            .font(.system(size: 16))
-                            .foregroundStyle(.white)
+                        
+                        RoundedRectangle(cornerRadius: 20)
+                            .overlay {
+                                Image(systemName: "arrowshape.down.fill")
+                                    .foregroundStyle(Color.white)
+                                    .frame(width: 30,height: 30)
+                                    
+                            }
+                            .foregroundStyle(Color.black)
+                            .frame(width: 50,height: 50)
                             .padding()
-                            .frame(maxWidth: 150)
-                            .background(RoundedRectangle(cornerRadius: 20).foregroundStyle(.black))
                          
                     }
-//                    .alert("Download Successful", isPresented: $downloadAlert) {
-//                        Button("OK", role: .cancel) { }
-//                    }
                     .padding()
 
                     //MARK: -  Favourite Button
@@ -143,7 +146,7 @@ struct WallScreen: View {
                                 Image(systemName: "heart.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.red)
+                                    .foregroundStyle(Color.red)
                                     .frame(width: 30, height: 25)
                             })
                             .frame(width: 50,height: 50)
@@ -153,7 +156,52 @@ struct WallScreen: View {
 
                     }
 
+                    
+                     
+                        //MARK: - lockOverlay button
+                            RoundedRectangle(cornerRadius: 20)
+                                .overlay {
+                                    Image(systemName: "lock.fill")
+                                        .foregroundStyle(Color.white)
+                                        .frame(width: 30,height: 30)
+                                        
+                                }
+                                .foregroundStyle(Color.black)
+                                .frame(width: 50,height: 50)
+                    
+                                .padding()
+                                .onTapGesture {
+                                    showLockOverlay = true
+                                }
+                                .fullScreenCover(isPresented: $showLockOverlay, content: {
+                                    LockOverlay(imageData: imageData )
+                                 
+                        })
+                        
+                   
+                        
+                        Button {
+                            showHomeOverlay = true
+                                
+                        } label: {
+                            RoundedRectangle(cornerRadius: 20)
+                                .overlay {
+                                    Image(systemName: "house.fill")
+                                        .foregroundStyle(Color.white)
+                                        .frame(width: 30,height: 30)
+                                        
+                                }
+                                .foregroundStyle(Color.black)
+                                .frame(width: 50,height: 50)
+                                .padding()
+                        }
+                        .fullScreenCover(isPresented: $showHomeOverlay, content: {
+                            HomeOverlay(imageData: imageData)
+                        })
+                    
+
                 }
+                
             }
             .ignoresSafeArea()
         }   .overlay {

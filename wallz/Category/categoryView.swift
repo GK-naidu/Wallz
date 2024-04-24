@@ -35,6 +35,7 @@ public class CategoryViewModel: ObservableObject {
      
     @State private var categoryData: [CategoryData] = []
     @State private var selectedImage: CategoryData?
+     @State private var Uniquecategories : String = ""
 
     @State private var showWallscreen : Bool = false
      

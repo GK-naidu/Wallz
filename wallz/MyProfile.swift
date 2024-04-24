@@ -57,7 +57,7 @@ struct MyProfile: View {
                     .padding()
                 
     
-                Link("Privacy policy", destination: URL(string: "https://www.privacypolicy.com/")!)
+                Link("Privacy policy", destination: URL(string: "https://long-lamb-cuff-links.cyclic.app/policy")!)
                     .foregroundStyle(Color.green)
                     .modifier(profileModifer())
     

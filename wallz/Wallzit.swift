@@ -5,8 +5,10 @@ struct ImageData: Identifiable, Decodable,Hashable {
     let id: String
     let name: String
     let url: String
+    
 //    let tags: [String]
-//    let categories: [String]
+    let categories: [String]
+//    let Uniquecategories : [String]
 //    let format: String
 //    let created_at: String
     
@@ -16,7 +18,8 @@ struct ImageData: Identifiable, Decodable,Hashable {
         case name
         case url
 //        case tags
-//        case categories
+        case categories
+//        case Uniquecategories 
 //        case format
 //        case created_at
     }
