@@ -35,36 +35,38 @@ struct CategoryWall: View {
         GridItem(),
         GridItem()
     ]
-
-    @State var categoryData : CategoryData?
-
-    @State private var  isFavourite: Bool = false
-
-    @State private var downloadAlert = false
-
-    @State private var buttonPressed = 0
-
-    @State private var extractedColors: [UIColor] = []
-
-
-    @EnvironmentObject var LikedWallpapersModel: LikedWallpapersModel
-
     
-
-     func FavouriteWallpaper( favWall string : String )  {
-
+    @State var categoryData : CategoryData?
+    
+    @State private var  isFavourite: Bool = false
+    
+    @State private var downloadAlert = false
+    
+    @State private var buttonPressed = 0
+    
+    @State private var extractedColors: [UIColor] = []
+    
+    @State private var showLockOverlay : Bool = false
+    @State private var showHomeOverlay : Bool = false
+    
+    @EnvironmentObject var LikedWallpapersModel: LikedWallpapersModel
+    
+    
+    
+    func FavouriteWallpaper( favWall string : String )  {
+        
         let userdefaults = UserDefaults.standard
-
+        
         var favwalls : [String] = userdefaults.object(forKey: "favWALL") as? [String] ?? []
-
+        
         if buttonPressed == 1 && isFavourite {
-
+            
             favwalls.append(string)
             userdefaults.set(favwalls,forKey: "favWALL")
-
+            
         }
         else  {
-         print("else from favouriteWallpaper loaded")
+            print("else from favouriteWallpaper loaded")
         }
     }
     
@@ -90,9 +92,9 @@ struct CategoryWall: View {
                             .padding()
                     }
                 }
-
+                
                 HStack {
-
+                    
                     //MARK: -  download button
                     Button(action: {
                         if let url = URL(string: categoryData?.url ?? "" ) {
@@ -105,8 +107,10 @@ struct CategoryWall: View {
                                             }, completionHandler: { success, error in
                                                 if success {
                                                     downloadAlert = true
+                                                    
                                                 } else if error != nil {
                                                     downloadAlert = false
+                                                    
                                                 }
                                             })
                                         } else {
@@ -115,24 +119,31 @@ struct CategoryWall: View {
                                     }
                                 } else {
                                     print("Error downloading image")
-
+                                    
                                 }
                             }
                             .resume()
                         }
                     }) {
-                        Text("Download")
-                            .font(.system(size: 16))
-                            .foregroundStyle(.white)
+                        
+                        RoundedRectangle(cornerRadius: 20)
+                            .overlay {
+                                Image(systemName: "arrowshape.down.fill")
+                                    .foregroundStyle(Color.white)
+                                    .frame(width: 30,height: 30)
+                                
+                            }
+                            .foregroundStyle(Color.black)
+                            .frame(width: 50,height: 50)
                             .padding()
-                            .frame(maxWidth: 150)
-                            .background(RoundedRectangle(cornerRadius: 20).foregroundStyle(.black))
+                        
                     }
+                    
                     .alert("Download Successful", isPresented: $downloadAlert) {
                         Button("OK", role: .cancel) { }
                     }
                     .padding()
-
+                    
                     //MARK: -  Favourite Button
                     Button(action: {
                         LikedWallpapersModel.toggleFavorite(categoryData?.url ?? "")
@@ -148,13 +159,62 @@ struct CategoryWall: View {
                             .frame(width: 50,height: 50)
                             .foregroundStyle(Color.black)
                             .padding()
-
-
+                        
+                        
                     }
-
+                    
+                    
+                    
+                    
+                    //MARK: - lockoverlay
+                    
+                    
+                    RoundedRectangle(cornerRadius: 20)
+                        .overlay {
+                            Image(systemName: "lock.fill")
+                                .foregroundStyle(Color.white)
+                                .frame(width: 30,height: 30)
+                                
+                        }
+                        .foregroundStyle(Color.black)
+                        .frame(width: 50,height: 50)
+            
+                        .padding()
+                        .onTapGesture {
+                            showLockOverlay = true
+                        }
+                        .fullScreenCover(isPresented: $showLockOverlay, content: {
+                            
+                            CategoryLockOverlay(categorydata: categoryData)
+                         
+                })
+                    
+                    //MARK: -  homeOverlay button
+                    
+                    
+                    Button {
+                        showHomeOverlay = true
+                            
+                    } label: {
+                        RoundedRectangle(cornerRadius: 20)
+                            .overlay {
+                                Image(systemName: "house.fill")
+                                    .foregroundStyle(Color.white)
+                                    .frame(width: 30,height: 30)
+                                    
+                            }
+                            .foregroundStyle(Color.black)
+                            .frame(width: 50,height: 50)
+                            .padding()
+                    }
+                    .fullScreenCover(isPresented: $showHomeOverlay, content: {
+                        
+                        CategoryHomeOverlay(categorydata: categoryData)
+                    })
+                    
                 }
+                .ignoresSafeArea()
             }
-            .ignoresSafeArea()
         }
     }
 }
