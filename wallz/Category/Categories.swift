@@ -10,7 +10,8 @@ import SwiftUI
 public struct Categories: View {
     @State private var selectedCategory: String?
     @State private var showCategoryView = false
-
+//    @EnvironmentObject private var settings: UserSettings
+    @ObservedObject var sharedData = SharedData.shared
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -34,8 +35,7 @@ public struct Categories: View {
     public var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+                sharedData.backgroundColor.ignoresSafeArea()
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 5) {
                         ForEach(Array(categoriesArray.enumerated()), id: \.offset) { index, value in

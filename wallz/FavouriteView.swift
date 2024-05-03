@@ -6,14 +6,17 @@ struct FavouriteView: View {
     @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
     @State private var downloadAlert = false
     @State var imageData : ImageData?
-    
+    @EnvironmentObject private var settings: UserSettings
     @State var showPopover = false
+    @ObservedObject var sharedData = SharedData.shared
+    let defaults = UserDefaults.standard
+    
     
     var body: some View {
         if !favouriteWallpapersModel.favouriteWallpapers.isEmpty {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+//                settings.backgroundColor.ignoresSafeArea()
+                sharedData.backgroundColor.ignoresSafeArea()
                 ScrollView {
                     LazyVGrid(columns: [GridItem(), GridItem()], spacing: 10) {
                         
@@ -82,6 +85,7 @@ struct FavouriteView: View {
                     }
                 }.scrollIndicators(.hidden)
                     .padding()
+                    
             }
         }
         else {

@@ -1,9 +1,3 @@
-//
-//  MyProfile.swift
-//  wallz
-//
-//  Created by G.K.Naidu on 25/02/24.
-
 
 import SwiftUI
 
@@ -24,93 +18,69 @@ struct profileModifer : ViewModifier {
 }
 
 struct MyProfile: View {
-    
+    @State private var changeBackground : Bool = false
+    @State private var showFeatureRequestView : Bool = false
     @State private var userName : String = "NIL"
-   
-
+    @ObservedObject var sharedData = SharedData.shared
+    
+//    @StateObject private var settings = UserSettings(initialColor: .white)
     var body: some View {
-        ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
-            VStack {
-                
-                    AsyncImage(url: URL(string: "https://xsgames.co/randomusers/assets/avatars/pixel/36.jpg")) { phase in
-                        if let image = phase.image {
-                            image
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                                .shadow(radius: 10)
-                                .padding()
-                        }
-                        else {
-                            ProgressView()
-                        }
-                    }
+        
 
-            
-                
-                Text("\(userName)")
-                    .font(.title)
-                    .foregroundStyle(Color.white)
-                    .padding()
-                
-    
-                Link("Privacy policy", destination: URL(string: "https://long-lamb-cuff-links.cyclic.app/policy")!)
-                    .foregroundStyle(Color.green)
-                    .modifier(profileModifer())
-    
-                Button(action: {
+        
+      
+            List{
+                Section {
                     
-                }) {
-                    Text("Rate our app")
-                        .foregroundStyle(Color.purple)
-                        .modifier(profileModifer())
+                    Link("Privacy policy", destination: URL(string: "https://long-lamb-cuff-links.cyclic.app/policy")!)
+                    
+                }.padding()
+                    .listRowBackground(Capsule().fill(Color.black).opacity(0.5))
+                Section {
+                    Text("Rate our app ⭐️⭐️⭐️⭐️⭐️")
+                }.padding()
+                    .listRowBackground(Capsule().fill(Color.black).opacity(0.5))
+                Section {
+                    Text("Change app background colour")
+                        .onTapGesture {
+                            changeBackground = true
+                        }
+
+                        .fullScreenCover(isPresented: $changeBackground, content: {
+                            BackgroundColour()
+                                .environmentObject(sharedData)
+                        })
+                            
+                        
+                
+                }.padding()
+                    .listRowBackground(Capsule().fill(Color.black).opacity(0.5))
+                Section {
+                    Text("Feature Requeset")
+                        .onTapGesture {
+                            showFeatureRequestView = true
+                        }
                        
-                    
-                }
-                
-                Button(action: {
-                    
-                }) {
-                    Text("background colour")
-                        .foregroundStyle(Color.yellow)
-                        .modifier(profileModifer())
-                    
-                }
-                
-                Button(action: {
-                    
-                }) {
-                    Text("Feature Request")
-                        .foregroundStyle(Color.blue)
-                        .modifier(profileModifer())
-                    
-                }
-        
-                Spacer()
+                        .sheet(isPresented: $showFeatureRequestView, content: {
+                            FeatureRequestView()
+                        })
+                }.padding()
+                    .listRowBackground(Capsule().fill(Color.black).opacity(0.5))
             }
-        
+            .listRowSpacing(10)
+            .scrollContentBackground(.hidden)
+            .foregroundStyle(Color.white)
+            .background{
+//                settings.backgroundColor.ignoresSafeArea()
+                sharedData.backgroundColor.ignoresSafeArea()
+                
+            }
+            
         }
-        .onAppear{
-            userName = UserDefaults.standard.string(forKey: "NAME") ?? "Your name ?"
-            print(userName)
-        }
-  
-    }
-        
+    
     
 }
 
 #Preview {
     MyProfile()
 }
-
-
-
-
-
-
-
-

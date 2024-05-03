@@ -6,6 +6,7 @@ import RiveRuntime
 
 
 class FavouriteWallpapersModel: ObservableObject {
+    
     @Published var favouriteWallpapers: [String] = []
 
     init() {
@@ -47,7 +48,8 @@ struct WallScreen: View {
     @State private var extractedColors: [UIColor] = []
 
     @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
-    
+//    @EnvironmentObject private var settings: UserSettings
+    @ObservedObject var sharedData = SharedData.shared
     @State private var showLockOverlay : Bool = false
     @State private var showHomeOverlay : Bool = false
 
@@ -71,8 +73,7 @@ struct WallScreen: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+            sharedData.backgroundColor.ignoresSafeArea()
             VStack{
                 AsyncImage(url: URL(string: imageData?.url ?? "" )) { phase in
                     if let image = phase.image {

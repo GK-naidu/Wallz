@@ -17,96 +17,96 @@ public class CategoryViewModel: ObservableObject {
     }
 }
 
- public struct categoryView: View {
+struct categoryView: View {
     
-     @Binding  var selectedCategory: String?
+    @Binding  var selectedCategory: String?
     @ObservedObject private var viewModel = CategoryViewModel()
-     
-     @State private var page: Int = 1
+    
+    @State private var page: Int = 1
     private var cancellable: AnyCancellable? = nil
-     @State private var isLoadingMore: Bool = false
-     
-     let likedWallpapersModel = LikedWallpapersModel()
-     
+    @State private var isLoadingMore: Bool = false
+    
+    let likedWallpapersModel = LikedWallpapersModel()
+    
     let columns = [
         GridItem(),
         GridItem()
     ]
-     
+    
     @State private var categoryData: [CategoryData] = []
     @State private var selectedImage: CategoryData?
-     @State private var Uniquecategories : String = ""
-
+    @State private var Uniquecategories : String = ""
+//    @EnvironmentObject private var settings: UserSettings
+    @ObservedObject var sharedData = SharedData.shared
     @State private var showWallscreen : Bool = false
-     
-     public init(selectedCategory: Binding<String?>) {
-           self._selectedCategory = selectedCategory
-       }
     
-    
-     public  var body: some View {
-         NavigationStack {
-             ZStack {
-                 LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                     .ignoresSafeArea()
-                 ScrollView {
-                     LazyVGrid(columns: columns, spacing: 10) {
-                         ForEach(categoryData) { item in
-                             NavigationLink(value: item) {
-                                 
-                                 AsyncImage(url: URL(string: item.url)!) { phase in
-                                     
-                                     if let image = phase.image {
-                                         image
-                                             .resizable()
-                                             .aspectRatio(contentMode: .fill)
-                                             .frame(width: 150, height: 350)
-                                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                                         
-                                         
-                                     } else {
-                                         ProgressView()
-                                             .frame(width: 150, height: 350)
-                                             .background(Color.gray)
-                                             .cornerRadius(20)
-                                     }
-                                 }
-                                 .shadow(radius: 9)
-                                 .padding()
-                                 
-                             }
-                             .onTapGesture {
-                                 selectedImage = item
-                                 showWallscreen = true
-                             }
-                 
-                             
-                         }
-                     }
-                     .padding()
-                     .onAppear {
-                         loadcategoriesData(page: page)
-                 
-                     }
-                     .onChange(of: categoryData.count) { oldValue, newValue in
-                         if !isLoadingMore && categoryData.count > 0 {
-                             isLoadingMore = true
-                             loadcategoriesData(page: page + 1)
-                             page += 1
-                             print("\(page)")
-                         }
-                     }
-         
-                 }
-                 .navigationDestination(for: CategoryData.self) { category in
-                     CategoryWall(categoryData: category)
-                         .environmentObject(likedWallpapersModel)
-                 }
-             }
-         }
+    public init(selectedCategory: Binding<String?>) {
+        self._selectedCategory = selectedCategory
     }
     
-     func loadcategoriesData(page : Int) {
+    
+    public  var body: some View {
+        NavigationStack {
+            ZStack {
+                sharedData.backgroundColor.ignoresSafeArea()
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(categoryData) { item in
+                            NavigationLink(value: item) {
+                                
+                                AsyncImage(url: URL(string: item.url)!) { phase in
+                                    
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 150, height: 350)
+                                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                                        
+                                        
+                                    } else {
+                                        ProgressView()
+                                            .frame(width: 150, height: 350)
+                                            .background(Color.gray)
+                                            .cornerRadius(20)
+                                    }
+                                }
+                                .shadow(radius: 9)
+                                .padding()
+                                
+                            }
+                            .onTapGesture {
+                                selectedImage = item
+                                showWallscreen = true
+                            }
+                            
+                            
+                        }
+                    }
+                    .padding()
+                    .onAppear {
+                        loadcategoriesData(page: page)
+                        
+                    }
+                    .onChange(of: categoryData.count) { oldValue, newValue in
+                        if !isLoadingMore && categoryData.count > 0 {
+                            isLoadingMore = true
+                            loadcategoriesData(page: page + 1)
+                            page += 1
+                            print("\(page)")
+                        }
+                    }
+                    
+                }
+                .navigationDestination(for: CategoryData.self) { category in
+                    CategoryWall(categoryData: category)
+                        .environmentObject(likedWallpapersModel)
+                }
+            }
+        }
+    }
+    
+    func loadcategoriesData(page : Int) {
         guard let category = selectedCategory, let url = URL(string: "https://long-lamb-cuff-links.cyclic.app/api/?categories=\(category.lowercased())&page=\(page)") else { return }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -115,7 +115,7 @@ public class CategoryViewModel: ObservableObject {
                     let decodedData = try JSONDecoder().decode([CategoryData].self, from: data)
                     DispatchQueue.main.async {
                         self.categoryData.append(contentsOf: decodedData)
-//                        self.categoryData = decodedData
+                        //                        self.categoryData = decodedData
                         self.isLoadingMore = false
                     }
                 } catch {
@@ -131,8 +131,8 @@ public class CategoryViewModel: ObservableObject {
         .resume()
         
     }
-       
-       
+    
+    
 }
 
 

@@ -10,11 +10,12 @@ import SwiftUI
 @main
 struct wallzApp: App {
     @Environment(\.scenePhase) private var scenePhase
+    @State private var selectedTab : String = "Categories"
+    
+    
     var body: some Scene {
         WindowGroup {
-//              RiveAnimationTest()
             ContentView()
-            
         }
         
         .onChange(of: scenePhase,initial: true) { phase,intial  in

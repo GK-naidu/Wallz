@@ -7,7 +7,8 @@ public struct HomeView: View {
     @State var showSplash: Bool = false
     @State private var page: Int = 1
     @State private var isLoadingMore: Bool = false
-
+//    @EnvironmentObject private var settings: UserSettings
+    @ObservedObject var sharedData = SharedData.shared
     let columns = [
         GridItem(),
         GridItem()
@@ -16,8 +17,7 @@ public struct HomeView: View {
     public var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+                sharedData.backgroundColor.ignoresSafeArea()
 
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {

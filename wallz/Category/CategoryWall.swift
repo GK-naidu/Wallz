@@ -50,7 +50,8 @@ struct CategoryWall: View {
     @State private var showHomeOverlay : Bool = false
     
     @EnvironmentObject var LikedWallpapersModel: LikedWallpapersModel
-    
+//    @EnvironmentObject private var settings: UserSettings
+    @ObservedObject var sharedData = SharedData.shared
     
     
     func FavouriteWallpaper( favWall string : String )  {
@@ -72,8 +73,7 @@ struct CategoryWall: View {
     
     var body: some View {
         ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color("9D92DF"), Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
-                .ignoresSafeArea()
+            sharedData.backgroundColor.ignoresSafeArea()
             VStack{
                 AsyncImage(url: URL(string: categoryData?.url ?? "" )) { phase in
                     if let image = phase.image {

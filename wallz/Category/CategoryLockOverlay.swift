@@ -22,9 +22,7 @@ struct CategoryLockOverlay: View {
                         
 
                 } else {
-//                    ProgressView()
-//                        .frame(width: 250, height: 500)
-//                        .padding()
+
                     Text("Lock screen preivew is under maintenance")
                     
                 }
