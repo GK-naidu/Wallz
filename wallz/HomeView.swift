@@ -6,8 +6,11 @@ public struct HomeView: View {
     @State private var selectedImage: ImageData?
     @State var showSplash: Bool = false
     @State private var page: Int = 1
+    private let limit = 10
+    private var offset = 0
     @State private var isLoadingMore: Bool = false
-//    @EnvironmentObject private var settings: UserSettings
+    let coloursRandom : [Color] = [.white,.blue,.green,.pink]
+    @State private var BGColour : Color = .yellow
     @ObservedObject var sharedData = SharedData.shared
     let columns = [
         GridItem(),
@@ -15,10 +18,16 @@ public struct HomeView: View {
     ]
 
     public var body: some View {
-        NavigationStack {
+        
             ZStack {
-                sharedData.backgroundColor.ignoresSafeArea()
 
+                Image("quotes")
+                    .resizable()
+                    .scaledToFill()
+                    .blur(radius: 4)
+                    .ignoresSafeArea()
+                    
+                    
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(data) { item in
@@ -40,6 +49,12 @@ public struct HomeView: View {
                                 .shadow(radius: 9)
                                 .padding()
                             }
+                            .task {
+                                if item == data.last {
+                                    loadMoreImages()
+                                    print("Last element")
+                                }
+                            }
                             .onTapGesture {
                                 selectedImage = item
                             }
@@ -53,25 +68,33 @@ public struct HomeView: View {
                     }
                     
 
-                    .onChange(of: data.count) { oldValue, newValue in
-                        if !isLoadingMore && data.count > 0 {
-                            isLoadingMore = true
-                            loadData(page: page + 1)
-                            page += 1
-                        }
-                    }
+//                    .onChange(of: data.count) { oldValue, newValue in
+//                        if !isLoadingMore && data.count > 0 {
+//                            isLoadingMore = true
+//                            loadData(page: page + 1)
+//                            page += 1
+//                        }
+//                    }
                 }
+               
             }
             .toolbar(.hidden)
             .navigationDestination(for: ImageData.self) { image in
                 WallScreen(imageData: image)
             }
-        }
+        
        
     }
 
+    func loadMoreImages() {
+        page += 1
+        loadData(page: page)
+    }
+    
   public  func loadData(page: Int) {
-        guard let url = URL(string: "https://long-lamb-cuff-links.cyclic.app/api?page=\(page)") else { return }
+        guard let url = URL(string: "https://wallzy.vercel.app/api/?page=\(page)") else { return }
+      
+      
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 do {

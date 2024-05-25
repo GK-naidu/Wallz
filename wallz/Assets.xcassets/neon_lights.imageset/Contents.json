@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "neon_lights.jpeg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "HomeOverlay.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -6,7 +6,7 @@ struct FavouriteView: View {
     @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
     @State private var downloadAlert = false
     @State var imageData : ImageData?
-    @EnvironmentObject private var settings: UserSettings
+//    @EnvironmentObject private var settings: UserSettings
     @State var showPopover = false
     @ObservedObject var sharedData = SharedData.shared
     let defaults = UserDefaults.standard
