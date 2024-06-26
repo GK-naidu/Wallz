@@ -1,7 +1,7 @@
 import SwiftUI
 import Photos
 import UIKit
-import RiveRuntime
+
 
 
 
@@ -160,60 +160,53 @@ struct WallScreen: View {
                     
                      
                         //MARK: - lockOverlay button
-                            RoundedRectangle(cornerRadius: 20)
-                                .overlay {
-                                    Image(systemName: "lock.fill")
-                                        .foregroundStyle(Color.white)
-                                        .frame(width: 30,height: 30)
-                                        
-                                }
-                                .foregroundStyle(Color.black)
-                                .frame(width: 50,height: 50)
-                    
-                                .padding()
-                                .onTapGesture {
-                                    showLockOverlay = true
-                                }
-                                .fullScreenCover(isPresented: $showLockOverlay, content: {
-                                    LockOverlay(imageData: imageData )
-                                 
-                        })
+//                            RoundedRectangle(cornerRadius: 20)
+//                                .overlay {
+//                                    Image(systemName: "lock.fill")
+//                                        .foregroundStyle(Color.white)
+//                                        .frame(width: 30,height: 30)
+//                                        
+//                                }
+//                                .foregroundStyle(Color.black)
+//                                .frame(width: 50,height: 50)
+//                    
+//                                .padding()
+//                                .onTapGesture {
+//                                    showLockOverlay = true
+//                                }
+//                                .fullScreenCover(isPresented: $showLockOverlay, content: {
+//                                    LockOverlay(imageData: imageData )
+//                                 
+//                        })
                         
                    //MARK: - HomeOverlay button
                         
-                        Button {
-                            showHomeOverlay = true
-                                
-                        } label: {
-                            RoundedRectangle(cornerRadius: 20)
-                                .overlay {
-                                    Image(systemName: "house.fill")
-                                        .foregroundStyle(Color.white)
-                                        .frame(width: 30,height: 30)
-                                        
-                                }
-                                .foregroundStyle(Color.black)
-                                .frame(width: 50,height: 50)
-                                .padding()
-                        }
-                        .fullScreenCover(isPresented: $showHomeOverlay, content: {
-                            HomeOverlay(imageData: imageData)
-                        })
+//                        Button {
+//                            showHomeOverlay = true
+//                                
+//                        } label: {
+//                            RoundedRectangle(cornerRadius: 20)
+//                                .overlay {
+//                                    Image(systemName: "house.fill")
+//                                        .foregroundStyle(Color.white)
+//                                        .frame(width: 30,height: 30)
+//                                        
+//                                }
+//                                .foregroundStyle(Color.black)
+//                                .frame(width: 50,height: 50)
+//                                .padding()
+//                        }
+//                        .fullScreenCover(isPresented: $showHomeOverlay, content: {
+//                            HomeOverlay(imageData: imageData)
+//                        })
                     
 
                 }
                 
             }
             .ignoresSafeArea()
-        }   .overlay {
-            if downloadAlert == true {
-                
-                RiveViewModel(fileName: "DownloadAnimation").view()
-                    .frame(width: 200,height: 200)
-                    .padding()
-                    
-                
-            }
+        }   .alert("Saved", isPresented: $downloadAlert) {
+            
         }
     }
         

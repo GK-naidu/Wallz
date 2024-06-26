@@ -67,14 +67,6 @@ public struct HomeView: View {
                         print(data.count)
                     }
                     
-
-//                    .onChange(of: data.count) { oldValue, newValue in
-//                        if !isLoadingMore && data.count > 0 {
-//                            isLoadingMore = true
-//                            loadData(page: page + 1)
-//                            page += 1
-//                        }
-//                    }
                 }
                
             }
@@ -93,9 +85,10 @@ public struct HomeView: View {
     
   public  func loadData(page: Int) {
         guard let url = URL(string: "https://wallzy.vercel.app/api/?page=\(page)") else { return }
+       
+//      guard let url = URL(string: "https://wallzy.vercel.app/api/testing") else { return }
       
-      
-        URLSession.shared.dataTask(with: url) { data, response, error in
+      URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 do {
                     let decodedData = try JSONDecoder().decode([ImageData].self, from: data)

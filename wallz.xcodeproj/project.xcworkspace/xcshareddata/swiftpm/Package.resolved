@@ -1,6 +1,15 @@
 {
-  "originHash" : "0ed1a20ef167ff6bbd7e233d8316ce8089f144b9619fb921d55eb1b69ffdfd4c",
+  "originHash" : "eb08664a61e270b18ce6e02aa8d7ec415cacfef2cf608fe367df100add2dfb7e",
   "pins" : [
+    {
+      "identity" : "nuke",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kean/Nuke.git",
+      "state" : {
+        "revision" : "7395c7a9dcd390bbcfad17a731d8d529602702c6",
+        "version" : "12.7.0"
+      }
+    },
     {
       "identity" : "rive-ios",
       "kind" : "remoteSourceControl",
