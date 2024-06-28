@@ -1,3 +1,4 @@
+
 import SwiftUI
 import UIKit
 struct Category: Identifiable,Hashable {
@@ -14,26 +15,23 @@ struct Category: Identifiable,Hashable {
     }
 }
 
-struct CategoryGridView: View {
-    
+struct Categorygrid: View {
     let category: Category
-    //    let categoryId: UUID
+    
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             Image(category.imageName)
                 .resizable()
                 .scaledToFill()
-                .clipShape(Circle())
-                .frame(width: 100, height: 100)
+                .frame(height: 150)
+                .clipped()
             
-            VStack {
-                Text(category.displayName)
-                    .font(.headline)
-                    .foregroundColor(.white)
-            }
-            .padding(.vertical)
-            .frame(maxWidth: .infinity)
-            .background(.ultraThinMaterial)
+            Text(category.displayName)
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding(.vertical, 8)
+                .frame(maxWidth: .infinity)
+                .background(.ultraThinMaterial)
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .overlay(
@@ -41,43 +39,38 @@ struct CategoryGridView: View {
                 .stroke(lineWidth: 0.5)
         )
         .padding(5)
-        
-        
-        
-        
     }
 }
 
-struct CategoryGrid: View {
+struct categorygrid : View {
     @State private var selectedCategory : String?
     //    @State private var selectedCategoryId: UUID?
-    let columns = [GridItem(.adaptive(minimum: 150))]
+    
+    let columns = [GridItem(.adaptive(minimum: 150, maximum: 200))]
     let categories: [Category] = [
         Category(id: UUID(), name: "Abstract"),
         Category(id: UUID(), name: "Cars"),
-        Category(id: UUID(), name: "Cartoon"),
+        Category(id: UUID(), name: "Anime"),
         Category(id: UUID(), name: "Cityscapes"),
         Category(id: UUID(), name: "Cyberpunk"),
-        Category(id: UUID(), name: "Depth_effect"),
+        Category(id: UUID(), name: "Amoled"),
         Category(id: UUID(), name: "Food"),
         Category(id: UUID(), name: "Games"),
         Category(id: UUID(), name: "Geometric"),
-        Category(id: UUID(), name: "Kids"),
         Category(id: UUID(), name: "Minimal"),
         Category(id: UUID(), name: "Moon"),
         Category(id: UUID(), name: "Music"),
-        Category(id: UUID(), name: "Neon_Lights"),
+        Category(id: UUID(), name: "Neon"),
         Category(id: UUID(), name: "Quotes"),
         Category(id: UUID(), name: "Space"),
         Category(id: UUID(), name: "Sports"),
         Category(id: UUID(), name: "Tech"),
-        Category(id: UUID(), name: "Vaporwave"),
-        Category(id: UUID(), name: "Live")
+        Category(id: UUID(), name: "Vaporwave")
     ]
     init() {
         UITabBar.appearance().scrollEdgeAppearance = UITabBarAppearance.init(idiom: .unspecified)
-        
-        
+
+
     }
     var body: some View {
         
@@ -90,7 +83,9 @@ struct CategoryGrid: View {
                         NavigationLink(
                             destination: categoryView(selectedCategory: $selectedCategory,categoryId:category.id))
                         {
-                            CategoryGridView(category: category)
+//                            CategoryGridView(category: category)
+                            Categorygrid(category: category)
+                            
                         }
                         .simultaneousGesture(TapGesture().onEnded({
                             selectedCategory = category.name
@@ -102,20 +97,19 @@ struct CategoryGrid: View {
             
         }.scrollIndicators(.hidden)
             .background{
-                Image("quotes")
-                    .resizable()
-                    .scaledToFill()
-                //  .ignoresSafeArea()
-                    .blur(radius: 4)
+//                Image("AppBackground")
+//                    .resizable()
+//                    .scaledToFill()
+//                    .blur(radius: 9)
+//                  .ignoresSafeArea()
+                   
             }
-            .ignoresSafeArea()
+//            .ignoresSafeArea()
         
         
         
     }
 }
 
-#Preview{
-    CategoryGrid()
-}
+
 

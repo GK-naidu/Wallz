@@ -52,7 +52,7 @@ struct CategoryWall: View {
     
     @EnvironmentObject var LikedWallpapersModel: LikedWallpapersModel
 //    @EnvironmentObject private var settings: UserSettings
-    @ObservedObject var sharedData = SharedData.shared
+    
     
     
     func FavouriteWallpaper( favWall string : String )  {
@@ -75,7 +75,7 @@ struct CategoryWall: View {
     var body: some View {
         
             ZStack {
-                sharedData.backgroundColor.ignoresSafeArea()
+                
                 VStack{
                     AsyncImage(url: URL(string: categoryData?.url ?? "" )) { phase in
                         if let image = phase.image {
@@ -96,24 +96,6 @@ struct CategoryWall: View {
                     }
                     
                     HStack {
-                        
-                        RoundedRectangle(cornerRadius: 20)
-                            .overlay {
-                                Image(systemName: "chevron.left")
-                                    .foregroundStyle(Color.white)
-                                    .frame(width: 30,height: 30)
-                                
-                            }
-                            .foregroundStyle(Color.black)
-                            .frame(width: 50,height: 50)
-                            .padding()
-                            .onTapGesture {
-                                goback = true
-                            }
-                        
-                            .fullScreenCover(isPresented: $goback) {
-                                ContentView()
-                            }
                         
                         //MARK: -  download button
                         Button(action: {
@@ -159,7 +141,7 @@ struct CategoryWall: View {
                             
                         }
                         
-                        .alert("Download Successful", isPresented: $downloadAlert) {
+                        .alert("Saved to Photos", isPresented: $downloadAlert) {
                             Button("OK", role: .cancel) { }
                         }
                         .padding()
@@ -189,48 +171,48 @@ struct CategoryWall: View {
                         //MARK: - lockoverlay
                         
                         
-                        RoundedRectangle(cornerRadius: 20)
-                            .overlay {
-                                Image(systemName: "lock.fill")
-                                    .foregroundStyle(Color.white)
-                                    .frame(width: 30,height: 30)
-                                
-                            }
-                            .foregroundStyle(Color.black)
-                            .frame(width: 50,height: 50)
-                        
-                            .padding()
-                            .onTapGesture {
-                                showLockOverlay = true
-                            }
-                            .fullScreenCover(isPresented: $showLockOverlay, content: {
-                                
-                                CategoryLockOverlay(categorydata: categoryData)
-                                
-                            })
+//                        RoundedRectangle(cornerRadius: 20)
+//                            .overlay {
+//                                Image(systemName: "lock.fill")
+//                                    .foregroundStyle(Color.white)
+//                                    .frame(width: 30,height: 30)
+//                                
+//                            }
+//                            .foregroundStyle(Color.black)
+//                            .frame(width: 50,height: 50)
+//                        
+//                            .padding()
+//                            .onTapGesture {
+//                                showLockOverlay = true
+//                            }
+//                            .fullScreenCover(isPresented: $showLockOverlay, content: {
+//                                
+//                                CategoryLockOverlay(categorydata: categoryData)
+//                                
+//                            })
                         
                         //MARK: -  homeOverlay button
                         
                         
-                        Button {
-                            showHomeOverlay = true
-                            
-                        } label: {
-                            RoundedRectangle(cornerRadius: 20)
-                                .overlay {
-                                    Image(systemName: "house.fill")
-                                        .foregroundStyle(Color.white)
-                                        .frame(width: 30,height: 30)
-                                    
-                                }
-                                .foregroundStyle(Color.black)
-                                .frame(width: 50,height: 50)
-                                .padding()
-                        }
-                        .fullScreenCover(isPresented: $showHomeOverlay, content: {
-                            
-                            CategoryHomeOverlay(categorydata: categoryData)
-                        })
+//                        Button {
+//                            showHomeOverlay = true
+//                            
+//                        } label: {
+//                            RoundedRectangle(cornerRadius: 20)
+//                                .overlay {
+//                                    Image(systemName: "house.fill")
+//                                        .foregroundStyle(Color.white)
+//                                        .frame(width: 30,height: 30)
+//                                    
+//                                }
+//                                .foregroundStyle(Color.black)
+//                                .frame(width: 50,height: 50)
+//                                .padding()
+//                        }
+//                        .fullScreenCover(isPresented: $showHomeOverlay, content: {
+//                            
+//                            CategoryHomeOverlay(categorydata: categoryData)
+//                        })
                         
                         
                         

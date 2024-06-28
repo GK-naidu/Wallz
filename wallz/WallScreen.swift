@@ -8,7 +8,7 @@ import UIKit
 class FavouriteWallpapersModel: ObservableObject {
     
     @Published var favouriteWallpapers: [String] = []
-
+     
     init() {
         if let savedWallpapers = UserDefaults.standard.array(forKey: "favouriteWallpapers") as? [String] {
             favouriteWallpapers = savedWallpapers
@@ -49,7 +49,7 @@ struct WallScreen: View {
 
     @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
 //    @EnvironmentObject private var settings: UserSettings
-    @ObservedObject var sharedData = SharedData.shared
+    
     @State private var showLockOverlay : Bool = false
     @State private var showHomeOverlay : Bool = false
 
@@ -73,7 +73,7 @@ struct WallScreen: View {
     
     var body: some View {
         ZStack {
-            sharedData.backgroundColor.ignoresSafeArea()
+            
             VStack{
                 AsyncImage(url: URL(string: imageData?.url ?? "" )) { phase in
                     if let image = phase.image {
@@ -205,7 +205,7 @@ struct WallScreen: View {
                 
             }
             .ignoresSafeArea()
-        }   .alert("Saved", isPresented: $downloadAlert) {
+        }   .alert("Saved to Photos", isPresented: $downloadAlert) {
             
         }
     }

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct BackgroundColour: View {
     
-    @ObservedObject var sharedData = SharedData.shared
+    
     @Environment(\.presentationMode) var presentationMode
     let colourCollection : [Color] = [.red,.blue,.green,.purple,.pink,.teal,.cyan,.brown,.indigo,.yellow]
     var body: some View {
@@ -25,37 +25,7 @@ struct BackgroundColour: View {
             }
             
             
-            VStack {
-          
-                ColorPicker("Colour ->", selection: $sharedData.backgroundColor)
-                    
-                    .fontWeight(.bold)
-                    .frame(width: 150,height: 50)
-                    .background{
-                        RoundedRectangle(cornerRadius: 20).opacity(0.3)
-                            .frame(width: 200,height: 75)
-                    }
-                    .padding()
-       
-                
-                Button {
-
-                    
-                    presentationMode.wrappedValue.dismiss()
-                } label: {
-                    
-                    RoundedRectangle(cornerRadius: 20)
-                        .overlay {
-                            Text("Save")
-                                .foregroundStyle(Color.blue)
-                        }
-                        
-                        .frame(width: 100,height: 45)
-                        .padding()
-                    
-                }
-                
-            }
+            
             
         }
     }

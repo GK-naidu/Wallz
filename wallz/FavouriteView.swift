@@ -8,7 +8,7 @@ struct FavouriteView: View {
     @State var imageData : ImageData?
 //    @EnvironmentObject private var settings: UserSettings
     @State var showPopover = false
-    @ObservedObject var sharedData = SharedData.shared
+    
     let defaults = UserDefaults.standard
     
     
@@ -16,7 +16,7 @@ struct FavouriteView: View {
         if !favouriteWallpapersModel.favouriteWallpapers.isEmpty {
             ZStack {
 //                settings.backgroundColor.ignoresSafeArea()
-                sharedData.backgroundColor.ignoresSafeArea()
+                
                 ScrollView {
                     LazyVGrid(columns: [GridItem(), GridItem()], spacing: 10) {
                         

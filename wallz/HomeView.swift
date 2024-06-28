@@ -11,7 +11,7 @@ public struct HomeView: View {
     @State private var isLoadingMore: Bool = false
     let coloursRandom : [Color] = [.white,.blue,.green,.pink]
     @State private var BGColour : Color = .yellow
-    @ObservedObject var sharedData = SharedData.shared
+    
     let columns = [
         GridItem(),
         GridItem()
