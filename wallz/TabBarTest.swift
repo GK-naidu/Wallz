@@ -5,8 +5,8 @@ struct TabBarTest: View {
     
     var body: some View {
         ZStack {
-            // Your main content here
-            Color.gray.edgesIgnoringSafeArea(.all)
+            // Main content
+            selectedTabView()
             
             VStack {
                 Spacer()
@@ -16,25 +16,22 @@ struct TabBarTest: View {
                     .padding(.horizontal, 20)
                     .padding(.bottom, 20)
             }
- 
         }
     }
     
-    
-    
     @ViewBuilder
-        func selectedTabView() -> some View {
-            switch selectedTab {
-            case 0:
-                categorygrid()
-            case 1:
-                PopularView()
-            case 2:
-                MyProfile()
-            default:
-                categorygrid()
-            }
+    func selectedTabView() -> some View {
+        switch selectedTab {
+        case 0:
+            categorygrid()
+        case 1:
+            PopularView()
+        case 2:
+            MyProfile()
+        default:
+            categorygrid()
         }
+    }
 }
 
 struct FloatingTabBar: View {
@@ -84,6 +81,12 @@ struct TabBarItem: View {
         .animation(.easeInOut(duration: 0.2), value: isSelected)
     }
 }
+
+
+
+
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
