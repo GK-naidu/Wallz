@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "9CD8F6E02B7936E100321E0F"
-               BuildableName = "wallz.app"
-               BlueprintName = "wallz"
-               ReferencedContainer = "container:wallz.xcodeproj">
+               BuildableName = "wallzyi.app"
+               BlueprintName = "wallzyi"
+               ReferencedContainer = "container:wallzyi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9CD8F6E02B7936E100321E0F"
-            BuildableName = "wallz.app"
-            BlueprintName = "wallz"
-            ReferencedContainer = "container:wallz.xcodeproj">
+            BuildableName = "wallzyi.app"
+            BlueprintName = "wallzyi"
+            ReferencedContainer = "container:wallzyi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "9CD8F6E02B7936E100321E0F"
-            BuildableName = "wallz.app"
-            BlueprintName = "wallz"
-            ReferencedContainer = "container:wallz.xcodeproj">
+            BuildableName = "wallzyi.app"
+            BlueprintName = "wallzyi"
+            ReferencedContainer = "container:wallzyi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -44,7 +44,7 @@ struct Categorygrid: View {
 
 struct categorygrid : View {
     @State private var selectedCategory : String?
-    //    @State private var selectedCategoryId: UUID?
+    
     
     let columns = [GridItem(.adaptive(minimum: 150, maximum: 200))]
     let categories: [Category] = [
@@ -54,11 +54,11 @@ struct categorygrid : View {
         Category(id: UUID(), name: "Cityscapes"),
         Category(id: UUID(), name: "Cyberpunk"),
         Category(id: UUID(), name: "Amoled"),
-        Category(id: UUID(), name: "Food"),
+        Category(id: UUID(), name: "Super Hero"),
         Category(id: UUID(), name: "Games"),
         Category(id: UUID(), name: "Geometric"),
         Category(id: UUID(), name: "Minimal"),
-        Category(id: UUID(), name: "Moon"),
+        Category(id: UUID(), name: "Scenic"),
         Category(id: UUID(), name: "Music"),
         Category(id: UUID(), name: "Neon"),
         Category(id: UUID(), name: "Quotes"),
@@ -83,7 +83,7 @@ struct categorygrid : View {
                         NavigationLink(
                             destination: categoryView(selectedCategory: $selectedCategory,categoryId:category.id))
                         {
-//                            CategoryGridView(category: category)
+
                             Categorygrid(category: category)
                             
                         }
@@ -102,9 +102,9 @@ struct categorygrid : View {
 //                    .scaledToFill()
 //                    .blur(radius: 9)
 //                  .ignoresSafeArea()
-                   
+                Color.black.ignoresSafeArea()
             }
-//            .ignoresSafeArea()
+
         
         
         

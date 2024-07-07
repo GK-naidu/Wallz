@@ -27,7 +27,7 @@ struct categoryView: View {
     private var cancellable: AnyCancellable? = nil
     @State private var isLoadingMore: Bool = false
     
-    let likedWallpapersModel = LikedWallpapersModel()
+//    let likedWallpapersModel = LikedWallpapersModel()
     
     let columns = [
         GridItem(),
@@ -154,7 +154,7 @@ struct categoryView: View {
 //        }
         .navigationDestination(isPresented: $GoToCategoryWall) {
             CategoryWall(categoryData: selectedImage)
-                .environmentObject(likedWallpapersModel)
+//                .environmentObject(likedWallpapersModel)
         }
         
     }

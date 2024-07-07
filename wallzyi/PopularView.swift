@@ -19,16 +19,16 @@ public struct PopularView: View {
     ]
 
     public var body: some View {
-        
+        GeometryReader {geometry in 
             ZStack {
-
-                Image("AppBackground")
-                    .resizable()
-                    .scaledToFill()
-                    .blur(radius: 8)
-                    .ignoresSafeArea()
-                    
-                    
+                
+//                Image("AppBackground")
+//                    .resizable()
+//                    .scaledToFill()
+//                    .blur(radius: 8)
+//                    .ignoresSafeArea()
+                Color.black.ignoresSafeArea()
+                
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(data) { item in
@@ -37,20 +37,9 @@ public struct PopularView: View {
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 150, height: 350)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
-//                                AsyncImage(url: URL(string: item.url)!) { phase in
-//                                    if let image = phase.image {
-//                                        image
-//                                            .resizable()
-//                                          
-//                                    } else {
-//                                        ProgressView()
-//                                            .frame(width: 150, height: 350)
-//                                            .background(Color.gray)
-//                                            .cornerRadius(20)
-//                                    }
-//                                }
-                                .shadow(radius: 9)
-                                .padding()
+                                
+                                    .shadow(radius: 9)
+                                    .padding()
                             }
                             .task {
                                 if item == data.last {
@@ -62,7 +51,7 @@ public struct PopularView: View {
                                 selectedImage = item
                             }
                         }
-                       
+                        
                     }
                     .padding()
                     .onAppear {
@@ -71,15 +60,15 @@ public struct PopularView: View {
                     }
                     
                 }
-               
+                
             }
             .toolbar(.hidden)
             .navigationDestination(for: ImageData.self) { image in
                 WallScreen(imageData: image)
                     .environmentObject(favouriteWallpapersModel)
             }
-        
-       
+            
+        }
     }
 
     func loadMoreImages() {
@@ -89,8 +78,9 @@ public struct PopularView: View {
     
   public  func loadData(page: Int) {
         guard let url = URL(string: "https://wallzy.vercel.app/api/?page=\(page)") else { return }
-       
-//      guard let url = URL(string: "https://wallzy.vercel.app/api/testing") else { return }
+      
+//      guard let url = URL(string: "https://wallzy.vercel.app/api/?name=fiber") else { return }
+
       
       URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {

@@ -139,23 +139,23 @@ struct WallScreen: View {
                     .padding()
 
                     //MARK: -  Favourite Button
-                    Button(action: {
-                        favouriteWallpapersModel.toggleFavorite(imageData?.url ?? "")
-                    }) {
-                        Circle()
-                            .overlay(content: {
-                                Image(systemName: "heart.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundStyle(Color.red)
-                                    .frame(width: 30, height: 25)
-                            })
-                            .frame(width: 50,height: 50)
-                            .foregroundStyle(Color.black)
-                            .padding()
-
-
-                    }
+//                    Button(action: {
+//                        favouriteWallpapersModel.toggleFavorite(imageData?.url ?? "")
+//                    }) {
+//                        Circle()
+//                            .overlay(content: {
+//                                Image(systemName: "heart.fill")
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .foregroundStyle(Color.red)
+//                                    .frame(width: 30, height: 25)
+//                            })
+//                            .frame(width: 50,height: 50)
+//                            .foregroundStyle(Color.black)
+//                            .padding()
+//
+//
+//                    }
 
                     
                      
@@ -207,6 +207,9 @@ struct WallScreen: View {
             .ignoresSafeArea()
         }   .alert("Saved to Photos", isPresented: $downloadAlert) {
             
+        }
+        .onAppear{
+            print(imageData?.url ?? "No URL is Loaded")
         }
     }
         

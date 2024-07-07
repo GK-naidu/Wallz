@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "scenic.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Moon.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },

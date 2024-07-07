@@ -4,7 +4,7 @@ struct TabBarTest: View {
     @State private var selectedTab = 0
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             // Main content
             selectedTabView()
             
@@ -25,7 +25,10 @@ struct TabBarTest: View {
         case 0:
             categorygrid()
         case 1:
-            PopularView()
+            GeometryReader { geometry in
+                PopularView()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+            }
         case 2:
             MyProfile()
         default:

@@ -70,7 +70,7 @@ struct MyProfile: View {
                 
                 Section {
                     
-                    Link("Privacy policy", destination: URL(string: "https://long-lamb-cuff-links.cyclic.app/policy")!)
+                    Link("Privacy policy", destination: URL(string: "https://wallzy.vercel.app/policy")!)
                     
                 }header: {
                     Text("App privacy policy")
