@@ -13,6 +13,7 @@
 		9C79B8012BD8000C006E2C82 /* LockOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C79B8002BD8000C006E2C82 /* LockOverlay.swift */; };
 		9C9BE2E82B8A6EAF007185C2 /* WallScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9BE2E72B8A6EAF007185C2 /* WallScreen.swift */; };
 		9C9F586B2BD65CE500CFDDB5 /* HomeOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9F586A2BD65CE500CFDDB5 /* HomeOverlay.swift */; };
+		9CAC35522C3AC79500155D3D /* wallpapers.json in Resources */ = {isa = PBXBuildFile; fileRef = 9CAC35512C3AC79500155D3D /* wallpapers.json */; };
 		9CAEB6872C2C32C900605A45 /* PopularView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAEB6862C2C32C900605A45 /* PopularView.swift */; };
 		9CAEB6892C2D3BCF00605A45 /* CategoryGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAEB6882C2D3BCF00605A45 /* CategoryGrid.swift */; };
 		9CAEB68E2C2D598F00605A45 /* Wallzit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAEB68D2C2D598F00605A45 /* Wallzit.swift */; };
@@ -31,6 +32,7 @@
 		9C79B8002BD8000C006E2C82 /* LockOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockOverlay.swift; sourceTree = "<group>"; };
 		9C9BE2E72B8A6EAF007185C2 /* WallScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WallScreen.swift; sourceTree = "<group>"; };
 		9C9F586A2BD65CE500CFDDB5 /* HomeOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeOverlay.swift; sourceTree = "<group>"; };
+		9CAC35512C3AC79500155D3D /* wallpapers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = wallpapers.json; sourceTree = "<group>"; };
 		9CAEB6862C2C32C900605A45 /* PopularView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopularView.swift; sourceTree = "<group>"; };
 		9CAEB6882C2D3BCF00605A45 /* CategoryGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryGrid.swift; sourceTree = "<group>"; };
 		9CAEB68A2C2D570400605A45 /* wallzyi.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = wallzyi.entitlements; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				9CAEB6882C2D3BCF00605A45 /* CategoryGrid.swift */,
 				9CE736682BBBED3B00F8002E /* categoryView.swift */,
 				9C12DAED2BC06F9900180B6F /* CategoryWall.swift */,
+				9CAC35512C3AC79500155D3D /* wallpapers.json */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			files = (
 				9CD8F6EC2B7936E300321E0F /* Preview Assets.xcassets in Resources */,
 				9CD8F6E92B7936E300321E0F /* Assets.xcassets in Resources */,
+				9CAC35522C3AC79500155D3D /* wallpapers.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

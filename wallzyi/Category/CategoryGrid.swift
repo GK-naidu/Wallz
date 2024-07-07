@@ -48,6 +48,7 @@ struct categorygrid : View {
     
     let columns = [GridItem(.adaptive(minimum: 150, maximum: 200))]
     let categories: [Category] = [
+        Category(id: UUID(), name: "Testing"),
         Category(id: UUID(), name: "Abstract"),
         Category(id: UUID(), name: "Cars"),
         Category(id: UUID(), name: "Anime"),

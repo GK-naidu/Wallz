@@ -31,7 +31,9 @@ struct ImageData: Identifiable, Decodable,Hashable {
 struct CategoryData: Identifiable, Decodable,Hashable {
     let id: String
     let name: String
-    let url: String
+//    let url: String
+    let highurl: String
+       let lowurl: String
     
 //    let tags: [String]
 //    let categories: [String]
@@ -42,7 +44,9 @@ struct CategoryData: Identifiable, Decodable,Hashable {
     enum CodingKeys: String, CodingKey {
         case id = "_id"
         case name
-        case url
+//        case url
+        case highurl
+        case lowurl
         
 //        case tags
 //        case categories

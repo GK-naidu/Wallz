@@ -35,7 +35,7 @@ struct CategoryWall: View {
         ZStack {
             Color.white.ignoresSafeArea()
             VStack {
-                AsyncImage(url: URL(string: categoryData?.url ?? "")) { phase in
+                AsyncImage(url: URL(string: categoryData?.highurl ?? "")) { phase in
                     if let image = phase.image {
                         image
                             .resizable()
@@ -53,10 +53,10 @@ struct CategoryWall: View {
                 HStack {
                     // Download button
                     Button(action: {
-                        guard let urlString = categoryData?.url,
+                        guard let urlString = categoryData?.lowurl,
                               let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                               let url = URL(string: encodedURLString) else {
-                            print("Invalid URL: \(categoryData?.url ?? "Nil URL")")
+                            print("Invalid URL: \(categoryData?.highurl ?? "Nil URL")")
                             return
                         }
                         

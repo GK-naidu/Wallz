@@ -1,0 +1,31 @@
+[
+  {
+    "size": {
+      "width": 1080,
+      "height": 1600
+    },
+    "_id": "660fe078580a4957b9c5d9b6",
+    "name": "TokyoCar",
+    "highurl": "https://res.cloudinary.com/dq0rchxli/image/upload/v1720351489/Cars_Pixar_Tokyo_Dri_yksyzb.jpg",
+    "lowurl": "https://res.cloudinary.com/dq0rchxli/image/upload/v1720351590/Cars_Pixar_Tokyo_Dri_wvo70o.jpg",
+    "tags": ["lowhigh"],
+    "categories": ["testing"],
+    "format": "jpg",
+    "created_at": "2024-04-05T11:28:55Z",
+    "__v": 0
+  },
+  {
+    "size": {
+      "width": 1080,
+      "height": 1600
+    },
+    "_id": "660fe078580a4957b9c5d789",
+    "name": "Glowing_fiber_optic",
+    "highurl": "https://res.cloudinary.com/dq0rchxli/image/upload/v1720351557/Glowing_fiber_optic_qkgwiv.jpg",
+    "lowurl": "https://res.cloudinary.com/dq0rchxli/image/upload/v1720351563/Glowing_fiber_optic_adinem.jpg",
+    "tags": ["lowhigh"],
+    "categories": ["testing"],
+    "format": "jpg",
+    "created_at": "2024-04-05T11:28:55Z"
+  }
+]

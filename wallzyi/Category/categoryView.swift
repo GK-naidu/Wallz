@@ -27,6 +27,7 @@ struct categoryView: View {
     private var cancellable: AnyCancellable? = nil
     @State private var isLoadingMore: Bool = false
     
+    
 //    let likedWallpapersModel = LikedWallpapersModel()
     
     let columns = [
@@ -87,7 +88,7 @@ struct categoryView: View {
                                 
                                 
                                 
-                                RemoteImage(url: item.url)
+                                RemoteImage(url: item.lowurl)
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 150, height: 350)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -128,7 +129,8 @@ struct categoryView: View {
                     .padding()
                     .onAppear {
                         updateBackgroundImage()
-                        loadcategoriesData(page: page)
+//                        loadcategoriesData(page: page)
+                      categoryData =  loadLocalJSONData()
                         
                         
                         print(selectedCategory ?? "Nil value")
@@ -189,6 +191,24 @@ struct categoryView: View {
         }
         .resume()
         
+    }
+    
+    //MARK: - local loading
+    //MARK: - ------------------------------------------------------------------------------------------------------------
+    func loadLocalJSONData() -> [CategoryData] {
+        guard let url = Bundle.main.url(forResource: "wallpapers", withExtension: "json"),
+              let data = try? Data(contentsOf: url) else {
+            print("Error loading JSON file")
+            return []
+        }
+        
+        do {
+            let decodedData = try JSONDecoder().decode([CategoryData].self, from: data)
+            return decodedData
+        } catch {
+            print("Error decoding JSON: \(error)")
+            return []
+        }
     }
     
     private func updateBackgroundImage() {
