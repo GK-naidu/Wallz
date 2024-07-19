@@ -2,80 +2,23 @@ import SwiftUI
 import Photos
 import UIKit
 
-
-
-
-class FavouriteWallpapersModel: ObservableObject {
-    
-    @Published var favouriteWallpapers: [String] = []
-     
-    init() {
-        if let savedWallpapers = UserDefaults.standard.array(forKey: "favouriteWallpapers") as? [String] {
-            favouriteWallpapers = savedWallpapers
-        }
-    }
-
-    func toggleFavorite(_ url: String) {
-        if favouriteWallpapers.contains(url) {
-            favouriteWallpapers.removeAll { $0 == url }
-        } else {
-            favouriteWallpapers.append(url)
-        }
-        saveWallpapers()
-    }
-
-    private func saveWallpapers() {
-        UserDefaults.standard.set(favouriteWallpapers, forKey: "favouriteWallpapers")
-    }
-}
-
-
 struct WallScreen: View {
-    
-    let columns = [
-        GridItem(),
-        GridItem()
-    ]
-
-    @State var imageData : ImageData?
-
-    @State private var  isFavourite: Bool = false
-
+    let columns = [GridItem(), GridItem()]
+    @State var imageData: [ImageData]
+    @State var currentImageIndex: Int
+    @State private var isFavourite: Bool = false
     @State private var downloadAlert = false
-
     @State private var buttonPressed = 0
-
     @State private var extractedColors: [UIColor] = []
+    @State private var showLockOverlay: Bool = false
+    @State private var showHomeOverlay: Bool = false
+    @State private var isFullscreen: Bool = false
 
-    @EnvironmentObject var favouriteWallpapersModel: FavouriteWallpapersModel
-//    @EnvironmentObject private var settings: UserSettings
-    
-    @State private var showLockOverlay : Bool = false
-    @State private var showHomeOverlay : Bool = false
-
-
-     func FavouriteWallpaper( favWall string : String )  {
-
-        let userdefaults = UserDefaults.standard
-
-        var favwalls : [String] = userdefaults.object(forKey: "favWALL") as? [String] ?? []
-
-        if buttonPressed == 1 && isFavourite {
-
-            favwalls.append(string)
-            userdefaults.set(favwalls,forKey: "favWALL")
-
-        }
-        else  {
-         print("else from favouriteWallpaper loaded")
-        }
-    }
-    
     var body: some View {
         ZStack {
-            
-            VStack{
-                AsyncImage(url: URL(string: imageData?.url ?? "" )) { phase in
+            Color.white.ignoresSafeArea()
+            VStack {
+                AsyncImage(url: URL(string: imageData[currentImageIndex].lowQualityUrl ?? " Nil url")) { phase in
                     if let image = phase.image {
                         image
                             .resizable()
@@ -83,7 +26,6 @@ struct WallScreen: View {
                             .frame(width: 250, height: 500)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .padding()
-
                     } else {
                         ProgressView()
                             .frame(width: 250, height: 500)
@@ -92,125 +34,91 @@ struct WallScreen: View {
                 }
 
                 HStack {
-
-                    //MARK: -  download button
-                    Button(action: {
-                        if let url = URL(string: imageData?.url ?? "" ) {
-                            URLSession.shared.dataTask(with: url) { data, response, error in
-                                if let data = data, let image = UIImage(data: data) {
-                                    PHPhotoLibrary.requestAuthorization { status in
-                                        if status == .authorized {
-                                            PHPhotoLibrary.shared().performChanges({
-                                                PHAssetChangeRequest.creationRequestForAsset(from: image)
-                                            }, completionHandler: { success, error in
-                                                if success {
-                                                  downloadAlert = true
-                                                    
-                                                } else if error != nil {
-                                                    downloadAlert = false
-                                                    
-                                                }
-                                            })
-                                        } else {
-                                            print("Photo library access denied")
-                                        }
-                                    }
-                                } else {
-                                    print("Error downloading image")
-
-                                }
-                            }
-                            .resume()
-                        }
-                    }) {
-                        
+                    // Download button
+                    Button(action: downloadImage) {
                         RoundedRectangle(cornerRadius: 20)
                             .overlay {
                                 Image(systemName: "arrowshape.down.fill")
                                     .foregroundStyle(Color.white)
-                                    .frame(width: 30,height: 30)
-                                    
+                                    .frame(width: 30, height: 30)
                             }
                             .foregroundStyle(Color.black)
-                            .frame(width: 50,height: 50)
-                            .padding()
-                         
+                            .frame(width: 50, height: 50)
                     }
-                    .padding()
 
-                    //MARK: -  Favourite Button
-//                    Button(action: {
-//                        favouriteWallpapersModel.toggleFavorite(imageData?.url ?? "")
-//                    }) {
-//                        Circle()
-//                            .overlay(content: {
-//                                Image(systemName: "heart.fill")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .foregroundStyle(Color.red)
-//                                    .frame(width: 30, height: 25)
-//                            })
-//                            .frame(width: 50,height: 50)
-//                            .foregroundStyle(Color.black)
-//                            .padding()
-//
-//
-//                    }
-
-                    
-                     
-                        //MARK: - lockOverlay button
-//                            RoundedRectangle(cornerRadius: 20)
-//                                .overlay {
-//                                    Image(systemName: "lock.fill")
-//                                        .foregroundStyle(Color.white)
-//                                        .frame(width: 30,height: 30)
-//                                        
-//                                }
-//                                .foregroundStyle(Color.black)
-//                                .frame(width: 50,height: 50)
-//                    
-//                                .padding()
-//                                .onTapGesture {
-//                                    showLockOverlay = true
-//                                }
-//                                .fullScreenCover(isPresented: $showLockOverlay, content: {
-//                                    LockOverlay(imageData: imageData )
-//                                 
-//                        })
-                        
-                   //MARK: - HomeOverlay button
-                        
-//                        Button {
-//                            showHomeOverlay = true
-//                                
-//                        } label: {
-//                            RoundedRectangle(cornerRadius: 20)
-//                                .overlay {
-//                                    Image(systemName: "house.fill")
-//                                        .foregroundStyle(Color.white)
-//                                        .frame(width: 30,height: 30)
-//                                        
-//                                }
-//                                .foregroundStyle(Color.black)
-//                                .frame(width: 50,height: 50)
-//                                .padding()
-//                        }
-//                        .fullScreenCover(isPresented: $showHomeOverlay, content: {
-//                            HomeOverlay(imageData: imageData)
-//                        })
-                    
-
+                    // Fullscreen button
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            isFullscreen = true
+                        }
+                    }) {
+                        RoundedRectangle(cornerRadius: 20)
+                            .overlay {
+                                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                    .foregroundStyle(Color.white)
+                                    .frame(width: 30, height: 30)
+                            }
+                            .foregroundStyle(Color.black)
+                            .frame(width: 50, height: 50)
+                    }
                 }
-                
+                .padding()
             }
             .ignoresSafeArea()
-        }   .alert("Saved to Photos", isPresented: $downloadAlert) {
-            
+
+            if isFullscreen {
+                FullscreenImageView(
+                    imageURLs: imageData.compactMap { URL(string: $0.url ?? "nil") },
+                    currentIndex: $currentImageIndex,
+                    isFullscreen: $isFullscreen
+                )
+                .transition(.opacity)
+                .zIndex(1)
+            }
         }
-        .onAppear{
-            print(imageData?.url ?? "No URL is Loaded")
+        .alert("Saved to Photos", isPresented: $downloadAlert) {
+            Button("OK") {}
+        }
+        .onAppear {
+            print("Original URL: \(String(describing: imageData[currentImageIndex].url))")
+           
         }
     }
+         
+    private func downloadImage() {
+        let originalURL = imageData[currentImageIndex].highQualityUrl
         
+        if let url = URL(string: originalURL ?? "N I L") {
+            print("Downloading from URL: \(String(describing: originalURL))")
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let data = data {
+                    PHPhotoLibrary.requestAuthorization { status in
+                        if status == .authorized {
+                            PHPhotoLibrary.shared().performChanges({
+                                let creationRequest = PHAssetCreationRequest.forAsset()
+                                creationRequest.addResource(with:.photo, data: data, options: nil)
+                            }, completionHandler: { success, error in
+                                DispatchQueue.main.async {
+                                    if success {
+                                        downloadAlert = true
+                                        print("Image successfully saved to Photos")
+                                        
+                                    } else if let error = error {
+                                        print("Error saving image: \(error.localizedDescription)")
+                                        downloadAlert = false
+                                    }
+                                }
+                            })
+                        } else {
+                            print("Photo library access denied")
+                        }
+                    }
+                } else if let error = error {
+                    print("Error downloading image: \(error.localizedDescription)")
+                }
+            }.resume()
+        } else {
+            print("Invalid URL: \(String(describing: originalURL))")
+        }
+    }
 }

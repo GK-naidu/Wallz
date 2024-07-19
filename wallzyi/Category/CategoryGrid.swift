@@ -48,7 +48,6 @@ struct categorygrid : View {
     
     let columns = [GridItem(.adaptive(minimum: 150, maximum: 200))]
     let categories: [Category] = [
-        Category(id: UUID(), name: "Testing"),
         Category(id: UUID(), name: "Abstract"),
         Category(id: UUID(), name: "Cars"),
         Category(id: UUID(), name: "Anime"),
@@ -98,11 +97,7 @@ struct categorygrid : View {
             
         }.scrollIndicators(.hidden)
             .background{
-//                Image("AppBackground")
-//                    .resizable()
-//                    .scaledToFill()
-//                    .blur(radius: 9)
-//                  .ignoresSafeArea()
+
                 Color.black.ignoresSafeArea()
             }
 

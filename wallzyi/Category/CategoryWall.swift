@@ -3,10 +3,7 @@ import Photos
 import UIKit
 
 struct CategoryWall: View {
-    let columns = [
-        GridItem(),
-        GridItem()
-    ]
+    let columns = [GridItem(), GridItem()]
     
     @State var categoryData: CategoryData?
     @State private var isFavourite: Bool = false
@@ -16,8 +13,8 @@ struct CategoryWall: View {
     @State private var showLockOverlay: Bool = false
     @State private var showHomeOverlay: Bool = false
     @State private var goback: Bool = false
-    
-//    @EnvironmentObject var LikedWallpapersModel: LikedWallpapersModel
+    @State private var isFullscreen: Bool = false  // New state variable for fullscreen mode
+    @State private var currentImageIndex: Int = 0
     
     func FavouriteWallpaper(favWall string: String) {
         let userdefaults = UserDefaults.standard
@@ -35,7 +32,7 @@ struct CategoryWall: View {
         ZStack {
             Color.white.ignoresSafeArea()
             VStack {
-                AsyncImage(url: URL(string: categoryData?.highurl ?? "")) { phase in
+                AsyncImage(url: URL(string: categoryData?.highQualityUrl ?? "")) { phase in
                     if let image = phase.image {
                         image
                             .resizable()
@@ -53,47 +50,49 @@ struct CategoryWall: View {
                 HStack {
                     // Download button
                     Button(action: {
-                        guard let urlString = categoryData?.lowurl,
-                              let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                              let url = URL(string: encodedURLString) else {
-                            print("Invalid URL: \(categoryData?.highurl ?? "Nil URL")")
-                            return
-                        }
-                        
-                        print("Attempting to download from URL: \(url.absoluteString)")
-                        
-                        URLSession.shared.dataTask(with: url) { data, response, error in
-                            if let error = error {
-                                print("Error downloading image: \(error.localizedDescription)")
+                        if let categoryData = categoryData {
+                            guard let urlString = categoryData.highQualityUrl,
+                                  let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                                  let url = URL(string: encodedURLString) else {
+                                print("Invalid URL: \(String(describing: categoryData.url))")
                                 return
                             }
                             
-                            guard let data = data, let image = UIImage(data: data) else {
-                                print("Error processing image data")
-                                return
-                            }
+                            print("Attempting to download from URL: \(url.absoluteString)")
                             
-                            PHPhotoLibrary.requestAuthorization { status in
-                                if status == .authorized {
-                                    PHPhotoLibrary.shared().performChanges({
-                                        let creationRequest = PHAssetCreationRequest.forAsset()
-                                        if let jpegData = image.jpegData(compressionQuality: 1.0) {
-                                            creationRequest.addResource(with: .photo, data: jpegData, options: nil)
-                                        }
-                                    }, completionHandler: { success, error in
-                                        DispatchQueue.main.async {
-                                            if success {
-                                                downloadAlert = true
-                                            } else if let error = error {
-                                                print("Error saving image: \(error.localizedDescription)")
-                                            }
-                                        }
-                                    })
-                                } else {
-                                    print("Photo library access denied")
+                            URLSession.shared.dataTask(with: url) { data, response, error in
+                                if let error = error {
+                                    print("Error downloading image: \(error.localizedDescription)")
+                                    return
                                 }
-                            }
-                        }.resume()
+                                
+                                guard let data = data else {
+                                    print("Error processing image data")
+                                    return
+                                }
+                                
+                                PHPhotoLibrary.requestAuthorization { status in
+                                    if status == .authorized {
+                                        PHPhotoLibrary.shared().performChanges({
+                                            let creationRequest = PHAssetCreationRequest.forAsset()
+                                            creationRequest.addResource(with: .photo, data: data, options: nil)
+                                        }, completionHandler: { success, error in
+                                            DispatchQueue.main.async {
+                                                if success {
+                                                    downloadAlert = true
+                                                } else if let error = error {
+                                                    print("Error saving image: \(error.localizedDescription)")
+                                                }
+                                            }
+                                        })
+                                    } else {
+                                        print("Photo library access denied")
+                                    }
+                                }
+                            }.resume()
+                        } else {
+                            print("categoryData is nil")
+                        }
                     }) {
                         RoundedRectangle(cornerRadius: 20)
                             .overlay {
@@ -108,32 +107,31 @@ struct CategoryWall: View {
                     .alert("Saved to Photos", isPresented: $downloadAlert) {
                         Button("OK", role: .cancel) { }
                     }
-                    .padding()
 
-                    // Favorite button (commented out in your original code)
-                    /*
+                    // Fullscreen button
                     Button(action: {
-                        LikedWallpapersModel.toggleFavorite(categoryData?.url ?? "")
+                        isFullscreen = true
                     }) {
-                        Circle()
-                            .overlay(content: {
-                                Image(systemName: "heart.fill")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .foregroundColor(.red)
-                                    .frame(width: 30, height: 25)
-                            })
-                            .frame(width: 50, height: 50)
+                        RoundedRectangle(cornerRadius: 20)
+                            .overlay {
+                                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                    .foregroundStyle(Color.white)
+                                    .frame(width: 30, height: 30)
+                            }
                             .foregroundStyle(Color.black)
+                            .frame(width: 50, height: 50)
                             .padding()
                     }
-                    */
                 }
                 .ignoresSafeArea()
             }
+            
+            
         }
         .onAppear {
             print(categoryData ?? "Nil category")
         }
     }
 }
+
+

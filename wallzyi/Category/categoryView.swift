@@ -1,13 +1,5 @@
-//
-//  categoryView.swift
-//  wallz
-//
-//  Created by G.K.Naidu on 02/04/24.
-//
-
 import SwiftUI
 import Combine
-
 
 public class CategoryViewModel: ObservableObject {
     @Published var publishedCategory: String?
@@ -19,16 +11,14 @@ public class CategoryViewModel: ObservableObject {
 
 struct categoryView: View {
     
-    @Binding  var selectedCategory: String?
-    let categoryId : UUID
+    @Binding var selectedCategory: String?
+    let categoryId: UUID
     @ObservedObject private var viewModel = CategoryViewModel()
     @State private var backgroundImageName: String = "anime"
     @State private var page: Int = 1
     private var cancellable: AnyCancellable? = nil
     @State private var isLoadingMore: Bool = false
-    
-    
-//    let likedWallpapersModel = LikedWallpapersModel()
+    @State private var hasReachedEnd: Bool = false
     
     let columns = [
         GridItem(),
@@ -37,31 +27,22 @@ struct categoryView: View {
     
     @State private var categoryData: [CategoryData] = []
     @State private var selectedImage: CategoryData?
-    @State private var Uniquecategories : String = ""
-    //    @EnvironmentObject private var settings: UserSettings
+    @State private var Uniquecategories: String = ""
     
-    @State private var showWallscreen : Bool = false
+    @State private var showWallscreen: Bool = false
     
-    public init(selectedCategory: Binding<String?>,categoryId : UUID) {
+    public init(selectedCategory: Binding<String?>, categoryId: UUID) {
         self._selectedCategory = selectedCategory
         self.categoryId = categoryId
-        
     }
     
-    @State private var GoToCategoryWall : Bool = false
+    @State private var GoToCategoryWall: Bool = false
     
-    public  var body: some View {
+    public var body: some View {
         
         NavigationStack {
             
             ZStack {
-                // add a background clolour ( or ) image
-                
-//                Image("AppBackground")
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fill)
-//                                    .blur(radius: 3)
-//                                    .ignoresSafeArea()
                 
                 AsyncImage(url: URL(string: backgroundImageName)) { phase in
                     
@@ -73,12 +54,8 @@ struct categoryView: View {
                             .ignoresSafeArea()
                             
                     }
-                        
-                        
-                    
                     
                 }
-                    
                 
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 10) {
@@ -86,57 +63,33 @@ struct categoryView: View {
                             
                             NavigationLink(value: item) {
                                 
-                                
-                                
-                                RemoteImage(url: item.lowurl)
+                                RemoteImage(url: (item.lowQualityUrl) ?? "Nil")
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 150, height: 350)
                                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                                
-                                
-//                                AsyncImage(url: URL(string: item.url)!) { phase in
-//                                    
-//                                    if let image = phase.image {
-//                                        image
-//                                            .resizable()
-//                                            .aspectRatio(contentMode: .fill)
-//                                            .frame(width: 150, height: 350)
-//                                            .clipShape(RoundedRectangle(cornerRadius: 20))
-//                                        
-//                                        
-//                                    } else {
-//                                        ProgressView()
-//                                            .frame(width: 150, height: 350)
-//                                            .background(Color.gray)
-//                                            .cornerRadius(20)
-//                                    }
-//                                }
-                                .shadow(radius: 9)
-                                .padding()
+                                    
+                                    .shadow(radius: 9)
+                                    .padding()
                                 
                             }
-
+                            
                             .simultaneousGesture(TapGesture().onEnded({ desti in
                                 selectedImage = item
                                 GoToCategoryWall = true
                                 showWallscreen = true
                             }))
                             
-
-                            
                         }
                     }
                     .padding()
                     .onAppear {
                         updateBackgroundImage()
-//                        loadcategoriesData(page: page)
-                      categoryData =  loadLocalJSONData()
-                        
+                        loadcategoriesData(page: page)
                         
                         print(selectedCategory ?? "Nil value")
                     }
                     .onChange(of: categoryData.count) { oldValue, newValue in
-                        if !isLoadingMore && categoryData.count > 0 {
+                        if !isLoadingMore && !hasReachedEnd {
                             isLoadingMore = true
                             loadcategoriesData(page: page + 1)
                             page += 1
@@ -147,69 +100,56 @@ struct categoryView: View {
                 }
                 
             }
-
+            
         }
         
-//        .navigationDestination(for: CategoryData.self) {  category in
-//            CategoryWall(categoryData: selectedImage)
-//                .environmentObject(likedWallpapersModel)
-//        }
         .navigationDestination(isPresented: $GoToCategoryWall) {
             CategoryWall(categoryData: selectedImage)
-//                .environmentObject(likedWallpapersModel)
         }
         
     }
     
-    func loadcategoriesData(page : Int) {
-
-        
-        guard let category = selectedCategory,
-        let url = URL(string: "https://wallzy.vercel.app/api/?page=\(page)&categories=\(category.lowercased())")
-                 else { return }
-        
-
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
+    func loadcategoriesData(page: Int) {
+        guard let category = selectedCategory else { return }
+        let encodedCategory = category.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? category
+        let urlString = "https://wallzy.vercel.app/api/?page=\(page)&categories=\(encodedCategory.lowercased())"
+        print("URL: \(urlString)")
+        if let url = URL(string: urlString) {
+            URLSession.shared.dataTask(with: url) { data, response, error in
+                if let error = error {
+                    print("Error fetching data: \(error)")
+                    isLoadingMore = false
+                    return
+                }
+                
+                guard let data = data else {
+                    print("No data returned")
+                    isLoadingMore = false
+                    return
+                }
+                
                 do {
                     let decodedData = try JSONDecoder().decode([CategoryData].self, from: data)
                     DispatchQueue.main.async {
                         self.categoryData.append(contentsOf: decodedData)
-                        //                        self.categoryData = decodedData
                         self.isLoadingMore = false
+                        if decodedData.count < 8 {
+                            self.hasReachedEnd = true
+                        }
                     }
                 } catch {
                     print("Error decoding data: \(error)")
                     isLoadingMore = false
                 }
-            } else if let error = error {
-                print("Error fetching data: \(error)")
-                isLoadingMore = false
             }
-            
+            .resume()
+        } else {
+            print("Invalid URL: \(urlString)")
+            return
         }
-        .resume()
-        
     }
     
-    //MARK: - local loading
-    //MARK: - ------------------------------------------------------------------------------------------------------------
-    func loadLocalJSONData() -> [CategoryData] {
-        guard let url = Bundle.main.url(forResource: "wallpapers", withExtension: "json"),
-              let data = try? Data(contentsOf: url) else {
-            print("Error loading JSON file")
-            return []
-        }
-        
-        do {
-            let decodedData = try JSONDecoder().decode([CategoryData].self, from: data)
-            return decodedData
-        } catch {
-            print("Error decoding JSON: \(error)")
-            return []
-        }
-    }
+
     
     private func updateBackgroundImage() {
             switch selectedCategory?.lowercased() {
@@ -257,5 +197,6 @@ struct categoryView: View {
             }
         }
 }
+
 
 
