@@ -10,13 +10,17 @@ struct FullscreenImageView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                
                 Color.black.edgesIgnoringSafeArea(.all)
                 
+                VStack{
+                    
+                   
                 ImagePagerView(
                     imageURLs: imageURLs,
                     currentIndex: $currentIndex,
-                    pageWidth: geometry.size.width,
-                    pageHeight: geometry.size.height
+                    pageWidth: 400,
+                    pageHeight: 700
                 )
                 .offset(y: offset)
                 .animation(.interpolatingSpring(stiffness: 300, damping: 30), value: offset)
@@ -41,7 +45,13 @@ struct FullscreenImageView: View {
                             }
                         }
                 )
+                    
+                    
+                    Text("Downloaded image would be higher in resolution")
+                        .frame(width: 400)
             }
+            
+        }
         }
         .statusBar(hidden: true)
         .gesture(

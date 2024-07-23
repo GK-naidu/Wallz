@@ -16,7 +16,10 @@ struct WallScreen: View {
 
     var body: some View {
         ZStack {
-            Color.white.ignoresSafeArea()
+            AsyncImage(url: URL(string: imageData[currentImageIndex].lowQualityUrl ?? "nil Url"))
+                .blur(radius: 9)
+                .ignoresSafeArea()
+            
             VStack {
                 AsyncImage(url: URL(string: imageData[currentImageIndex].lowQualityUrl ?? " Nil url")) { phase in
                     if let image = phase.image {
@@ -32,43 +35,47 @@ struct WallScreen: View {
                             .padding()
                     }
                 }
-
-                HStack {
-                    // Download button
-                    Button(action: downloadImage) {
-                        RoundedRectangle(cornerRadius: 20)
-                            .overlay {
-                                Image(systemName: "arrowshape.down.fill")
-                                    .foregroundStyle(Color.white)
-                                    .frame(width: 30, height: 30)
-                            }
-                            .foregroundStyle(Color.black)
-                            .frame(width: 50, height: 50)
-                    }
-
-                    // Fullscreen button
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            isFullscreen = true
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .frame(width: 250,height: 75)
+                        .foregroundStyle(Color.white)
+                    HStack {
+                        // Download button
+                        Button(action: downloadImage) {
+                            RoundedRectangle(cornerRadius: 20)
+                                .overlay {
+                                    Image(systemName: "arrowshape.down.fill")
+                                        .foregroundStyle(Color.white)
+                                        .frame(width: 30, height: 30)
+                                }
+                                .foregroundStyle(Color.black)
+                                .frame(width: 50, height: 50)
                         }
-                    }) {
-                        RoundedRectangle(cornerRadius: 20)
-                            .overlay {
-                                Image(systemName: "arrow.up.left.and.arrow.down.right")
-                                    .foregroundStyle(Color.white)
-                                    .frame(width: 30, height: 30)
+                        
+                        // Fullscreen button
+                        Button(action: {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                isFullscreen = true
                             }
-                            .foregroundStyle(Color.black)
-                            .frame(width: 50, height: 50)
+                        }) {
+                            RoundedRectangle(cornerRadius: 20)
+                                .overlay {
+                                    Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                        .foregroundStyle(Color.white)
+                                        .frame(width: 30, height: 30)
+                                }
+                                .foregroundStyle(Color.black)
+                                .frame(width: 50, height: 50)
+                        }
                     }
+                    .padding()
                 }
-                .padding()
             }
             .ignoresSafeArea()
 
             if isFullscreen {
                 FullscreenImageView(
-                    imageURLs: imageData.compactMap { URL(string: $0.url ?? "nil") },
+                    imageURLs: imageData.compactMap { URL(string: $0.lowQualityUrl ?? "") },
                     currentIndex: $currentImageIndex,
                     isFullscreen: $isFullscreen
                 )
@@ -81,7 +88,6 @@ struct WallScreen: View {
         }
         .onAppear {
             print("Original URL: \(String(describing: imageData[currentImageIndex].url))")
-           
         }
     }
          
@@ -102,7 +108,6 @@ struct WallScreen: View {
                                     if success {
                                         downloadAlert = true
                                         print("Image successfully saved to Photos")
-                                        
                                     } else if let error = error {
                                         print("Error saving image: \(error.localizedDescription)")
                                         downloadAlert = false

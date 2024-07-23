@@ -75,7 +75,7 @@ public struct PopularView: View {
                         print("Decoded \(decodedData.count) images")
                         var newData: [ImageData] = []
                         for image in decodedData {
-                            var newImage = image
+                            let newImage = image
                             print("Image ID: \(newImage.id)")
                             print("Image Name: \(newImage.name)")
                             print("--------------------")

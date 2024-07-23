@@ -2,6 +2,7 @@
 
 import Foundation
 import SwiftUI
+import Combine
 
 class ImageLoader: ObservableObject {
     @Published var image: UIImage?
@@ -71,5 +72,32 @@ struct RemoteImage: View {
         } else {
             ProgressView()
         }
+    }
+}
+
+
+
+
+
+class ScrollViewModel: ObservableObject {
+    @Published var scrollOffset: CGFloat = 0
+    @Published var previousScrollOffset: CGFloat = 0
+    @Published var isTabBarVisible: Bool = true
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    init() {
+        $scrollOffset
+            .combineLatest($previousScrollOffset)
+            .map { currentOffset, previousOffset -> Bool in
+                currentOffset <= previousOffset
+            }
+            .assign(to: \.isTabBarVisible, on: self)
+            .store(in: &cancellables)
+    }
+    
+    func updateScrollOffset(_ offset: CGFloat) {
+        previousScrollOffset = scrollOffset
+        scrollOffset = offset
     }
 }

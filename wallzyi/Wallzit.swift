@@ -40,6 +40,15 @@ struct CategoryData: Identifiable, Decodable, Hashable {
     let lowQualityUrl : String?
     
     
+    func hash(into hasher: inout Hasher) {
+         hasher.combine(id)
+     }
+
+     static func == (lhs: CategoryData, rhs: CategoryData) -> Bool {
+         return lhs.id == rhs.id
+     }
+    
+    
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
