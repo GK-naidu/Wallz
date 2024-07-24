@@ -48,6 +48,7 @@ public struct PopularView: View {
                             loadData(page: page)
                         }
                     }
+                   .scrollIndicators(.hidden)
                 }
             }
            .toolbar(.hidden)

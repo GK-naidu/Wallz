@@ -2,6 +2,7 @@ import SwiftUI
 import Photos
 import UIKit
 
+
 struct CategoryWall: View {
     let columns = [GridItem(), GridItem()]
     
@@ -17,17 +18,13 @@ struct CategoryWall: View {
     @State private var isFullscreen: Bool = false
     @State private var currentImageIndex: Int = 0
     
-    var highQualityURL: URL? {
-        guard let urlString = categoryData?.highQualityUrl,
-              let url = URL(string: urlString) else {
-            return nil
-        }
-        return url
+    var allImageURLs: [URL] {
+        return [categoryData].compactMap { $0 }.compactMap { URL(string: $0.lowQualityUrl ?? "") }
     }
     
     var body: some View {
         ZStack {
-            AsyncImage(url: URL(string: categoryData?.lowQualityUrl ?? "Nil"))
+            AsyncImage(url: URL(string: categoryData?.lowQualityUrl ?? ""))
                 .blur(radius: 9)
                 .ignoresSafeArea()
             VStack {
@@ -52,49 +49,7 @@ struct CategoryWall: View {
                     HStack {
                         // Download button
                         Button(action: {
-                            if let categoryData = categoryData {
-                                guard let urlString = categoryData.highQualityUrl,
-                                      let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-                                      let url = URL(string: encodedURLString) else {
-                                    print("Invalid URL: \(String(describing: categoryData.url))")
-                                    return
-                                }
-                                
-                                print("Attempting to download from URL: \(url.absoluteString)")
-                                
-                                URLSession.shared.dataTask(with: url) { data, response, error in
-                                    if let error = error {
-                                        print("Error downloading image: \(error.localizedDescription)")
-                                        return
-                                    }
-                                    
-                                    guard let data = data else {
-                                        print("Error processing image data")
-                                        return
-                                    }
-                                    
-                                    PHPhotoLibrary.requestAuthorization { status in
-                                        if status == .authorized {
-                                            PHPhotoLibrary.shared().performChanges({
-                                                let creationRequest = PHAssetCreationRequest.forAsset()
-                                                creationRequest.addResource(with: .photo, data: data, options: nil)
-                                            }, completionHandler: { success, error in
-                                                DispatchQueue.main.async {
-                                                    if success {
-                                                        downloadAlert = true
-                                                    } else if let error = error {
-                                                        print("Error saving image: \(error.localizedDescription)")
-                                                    }
-                                                }
-                                            })
-                                        } else {
-                                            print("Photo library access denied")
-                                        }
-                                    }
-                                }.resume()
-                            } else {
-                                print("categoryData is nil")
-                            }
+                            downloadImage()
                         }) {
                             RoundedRectangle(cornerRadius: 20)
                                 .overlay {
@@ -131,16 +86,60 @@ struct CategoryWall: View {
             }
             if isFullscreen {
                 FullscreenImageView(
-                    imageURLs: [highQualityURL].compactMap { $0 },
+                    imageURLs: allImageURLs,
                     currentIndex: $currentImageIndex,
                     isFullscreen: $isFullscreen
                 )
-                .transition(.opacity)
+                .transition(.scale(scale: 1))
                 .zIndex(1)
             }
         }
         .onAppear {
             print(categoryData ?? "Nil category")
+            print("Decoded \(imageData.count) images")
         }
+    }
+    
+    private func downloadImage() {
+        guard let categoryData = categoryData,
+              let urlString = categoryData.highQualityUrl,
+              let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: encodedURLString) else {
+            print("Invalid URL")
+            return
+        }
+        
+        print("Attempting to download from URL: \(url.absoluteString)")
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error downloading image: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let data = data else {
+                print("Error processing image data")
+                return
+            }
+            
+            PHPhotoLibrary.requestAuthorization { status in
+                if status == .authorized {
+                    PHPhotoLibrary.shared().performChanges({
+                        let creationRequest = PHAssetCreationRequest.forAsset()
+                        creationRequest.addResource(with: .photo, data: data, options: nil)
+                    }, completionHandler: { success, error in
+                        DispatchQueue.main.async {
+                            if success {
+                                downloadAlert = true
+                            } else if let error = error {
+                                print("Error saving image: \(error.localizedDescription)")
+                            }
+                        }
+                    })
+                } else {
+                    print("Photo library access denied")
+                }
+            }
+        }.resume()
     }
 }

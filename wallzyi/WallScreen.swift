@@ -79,7 +79,7 @@ struct WallScreen: View {
                     currentIndex: $currentImageIndex,
                     isFullscreen: $isFullscreen
                 )
-                .transition(.opacity)
+                .transition(.scale(scale: 1))
                 .zIndex(1)
             }
         }

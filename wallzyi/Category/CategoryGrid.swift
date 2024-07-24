@@ -44,32 +44,32 @@ struct Categorygrid: View {
 
 struct categorygrid : View {
     @State private var selectedCategory : String?
-    
+    @State private var shuffledCategories: [Category]
     
     let columns = [GridItem(.adaptive(minimum: 150, maximum: 200))]
     let categories: [Category] = [
         Category(id: UUID(), name: "Abstract"),
         Category(id: UUID(), name: "Cars"),
-        Category(id: UUID(), name: "Anime"),
+//        Category(id: UUID(), name: "Anime"),
         Category(id: UUID(), name: "Cityscapes"),
         Category(id: UUID(), name: "Cyberpunk"),
         Category(id: UUID(), name: "Amoled"),
-        Category(id: UUID(), name: "Super Hero"),
+//        Category(id: UUID(), name: "Super Hero"),
         Category(id: UUID(), name: "Games"),
-        Category(id: UUID(), name: "Geometric"),
+        Category(id: UUID(), name: "geometry"),
         Category(id: UUID(), name: "Minimal"),
-        Category(id: UUID(), name: "Scenic"),
+//        Category(id: UUID(), name: "Scenic"),
         Category(id: UUID(), name: "Music"),
-        Category(id: UUID(), name: "Neon"),
+//        Category(id: UUID(), name: "Neon"),
         Category(id: UUID(), name: "Quotes"),
         Category(id: UUID(), name: "Space"),
-        Category(id: UUID(), name: "Sports"),
+//        Category(id: UUID(), name: "Sports"),
         Category(id: UUID(), name: "Tech"),
         Category(id: UUID(), name: "Vaporwave")
     ]
     init() {
         UITabBar.appearance().scrollEdgeAppearance = UITabBarAppearance.init(idiom: .unspecified)
-
+        _shuffledCategories = State(initialValue: categories.shuffled())
 
     }
     var body: some View {
@@ -78,7 +78,7 @@ struct categorygrid : View {
             ZStack {
                 
                 LazyVGrid(columns: columns) {
-                    ForEach(categories) { category in
+                    ForEach(shuffledCategories) { category in
                         
                         NavigationLink(
                             destination: categoryView(selectedCategory: $selectedCategory,categoryId:category.id))
@@ -100,7 +100,9 @@ struct categorygrid : View {
 
                 Color.black.ignoresSafeArea()
             }
-
+            .onAppear{
+                shuffledCategories = categories.shuffled()
+            }
         
         
         

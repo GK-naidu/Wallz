@@ -73,7 +73,9 @@ struct categoryView: View {
                         }
                     }
                     .padding()
+                    
                 }
+                .scrollIndicators(.hidden)
                 .onAppear {
                     updateBackgroundImage()
                     if categoryData.isEmpty {
