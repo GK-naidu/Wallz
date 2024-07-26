@@ -1,6 +1,5 @@
 import SwiftUI
 import Photos
-import UIKit
 
 struct WallScreen: View {
     let columns = [GridItem(), GridItem()]
