@@ -1,5 +1,8 @@
 import SwiftUI
 
+
+
+// PopularView
 public struct PopularView: View {
     @State private var data: [ImageData] = []
     @State private var selectedImageIndex: Int?
@@ -37,12 +40,14 @@ public struct PopularView: View {
                                        .frame(width: 150, height: 350)
                                        .clipShape(RoundedRectangle(cornerRadius: 20))
                                        .shadow(radius: 9)
+                                       
                                        .padding()
                                 }
                                .id(item.id)
                                .onAppear {
                                     if index == data.count - 1 {
                                         loadMoreImages()
+                                            
                                     }
                                 }
                             }
@@ -53,14 +58,13 @@ public struct PopularView: View {
                         if data.isEmpty {
                             isLoading = true
                             loadData(page: page)
+                                
                         }
                     }
                    .scrollIndicators(.hidden)
                 }
-                if isLoading {
-                    ProgressView("Loading...")
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .foregroundColor(.white)
+                if isLoading{
+                    
                 }
             }
            .toolbar(.hidden)
@@ -132,15 +136,11 @@ public struct PopularView: View {
                 isLoading = false
             }
         }
-       .resume()
+      .resume()
     }
-    
-
 }
-
 
 #Preview {
-    
     PopularView()
-    
 }
+                            

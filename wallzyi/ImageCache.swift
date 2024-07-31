@@ -70,7 +70,7 @@ struct RemoteImage: View {
             Image(uiImage: image)
                 .resizable()
         } else {
-            ProgressView()
+            SkeletonView()
         }
     }
 }

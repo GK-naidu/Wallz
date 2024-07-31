@@ -11,6 +11,7 @@
 		9C01FF912C52C25600E08C90 /* MetalEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C01FF902C52C25600E08C90 /* MetalEffectView.swift */; };
 		9C0584D22C4A62A400C49658 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0584D12C4A62A400C49658 /* ImageCache.swift */; };
 		9C12DAEE2BC06F9900180B6F /* CategoryWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C12DAED2BC06F9900180B6F /* CategoryWall.swift */; };
+		9C43DCE62C5A60A60097ACF8 /* SkeletonCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C43DCE52C5A60A60097ACF8 /* SkeletonCellView.swift */; };
 		9C467BCF2B8B486E00DC6D0C /* FavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */; };
 		9C467BD12B8B48D400DC6D0C /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C467BD02B8B48D400DC6D0C /* MyProfile.swift */; };
 		9C79B8012BD8000C006E2C82 /* LockOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C79B8002BD8000C006E2C82 /* LockOverlay.swift */; };
@@ -36,6 +37,7 @@
 		9C01FF902C52C25600E08C90 /* MetalEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalEffectView.swift; sourceTree = "<group>"; };
 		9C0584D12C4A62A400C49658 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		9C12DAED2BC06F9900180B6F /* CategoryWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryWall.swift; sourceTree = "<group>"; };
+		9C43DCE52C5A60A60097ACF8 /* SkeletonCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCellView.swift; sourceTree = "<group>"; };
 		9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteView.swift; sourceTree = "<group>"; };
 		9C467BD02B8B48D400DC6D0C /* MyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfile.swift; sourceTree = "<group>"; };
 		9C79B8002BD8000C006E2C82 /* LockOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockOverlay.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 				9CAEB6912C2EE4E400605A45 /* TabBarTest.swift */,
 				9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */,
 				9CAEB6862C2C32C900605A45 /* PopularView.swift */,
+				9C43DCE52C5A60A60097ACF8 /* SkeletonCellView.swift */,
 				9C9BE2E72B8A6EAF007185C2 /* WallScreen.swift */,
 				9CCBCFF52C5A18090056139A /* InterstitialAdsManager.swift */,
 				9CD13B212C56D1D80042FE21 /* BannerView.swift */,
@@ -229,6 +232,7 @@
 				9C467BD12B8B48D400DC6D0C /* MyProfile.swift in Sources */,
 				9C79B8012BD8000C006E2C82 /* LockOverlay.swift in Sources */,
 				9CAEB6922C2EE4E400605A45 /* TabBarTest.swift in Sources */,
+				9C43DCE62C5A60A60097ACF8 /* SkeletonCellView.swift in Sources */,
 				9CAEB6892C2D3BCF00605A45 /* CategoryGrid.swift in Sources */,
 				9C467BCF2B8B486E00DC6D0C /* FavouriteView.swift in Sources */,
 				9CD13B222C56D1D80042FE21 /* BannerView.swift in Sources */,
