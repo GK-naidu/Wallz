@@ -1,5 +1,8 @@
 import SwiftUI
 import Photos
+import GoogleMobileAds
+import AdSupport
+import AppTrackingTransparency
 
 struct WallScreen: View {
     let columns = [GridItem(), GridItem()]
@@ -12,13 +15,14 @@ struct WallScreen: View {
     @State private var showLockOverlay: Bool = false
     @State private var showHomeOverlay: Bool = false
     @State private var isFullscreen: Bool = false
-
+    @State private var idfa: String = ""
+    @EnvironmentObject var interstitialAdsManager: InterstitialAdsManager
+    
     var body: some View {
         ZStack {
             AsyncImage(url: URL(string: imageData[currentImageIndex].lowQualityUrl ?? "nil Url"))
                 .blur(radius: 9)
                 .ignoresSafeArea()
-            
             VStack {
                 AsyncImage(url: URL(string: imageData[currentImageIndex].lowQualityUrl ?? " Nil url")) { phase in
                     if let image = phase.image {
@@ -27,16 +31,14 @@ struct WallScreen: View {
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 250, height: 500)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .padding()
                     } else {
                         ProgressView()
                             .frame(width: 250, height: 500)
-                            .padding()
                     }
                 }
+                
                 ZStack {
                     RoundedRectangle(cornerRadius: 20)
-                        .frame(width: 250,height: 75)
                         .foregroundStyle(Color.white)
                     HStack {
                         // Download button
@@ -67,11 +69,12 @@ struct WallScreen: View {
                                 .frame(width: 50, height: 50)
                         }
                     }
-                    .padding()
-                }
+                }.frame(width: 250, height: 75)
+                
+                BannerContentView()
+                    .frame(height: 50)
             }
-            .ignoresSafeArea()
-
+            
             if isFullscreen {
                 FullscreenImageView(
                     imageURLs: imageData.compactMap { URL(string: $0.lowQualityUrl ?? "") },
@@ -89,40 +92,55 @@ struct WallScreen: View {
             print("Original URL: \(String(describing: imageData[currentImageIndex].url))")
         }
     }
-         
+    
     private func downloadImage() {
-        let originalURL = imageData[currentImageIndex].highQualityUrl
-        
-        if let url = URL(string: originalURL ?? "N I L") {
-            print("Downloading from URL: \(String(describing: originalURL))")
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                if let data = data {
-                    PHPhotoLibrary.requestAuthorization { status in
-                        if status == .authorized {
-                            PHPhotoLibrary.shared().performChanges({
-                                let creationRequest = PHAssetCreationRequest.forAsset()
-                                creationRequest.addResource(with:.photo, data: data, options: nil)
-                            }, completionHandler: { success, error in
-                                DispatchQueue.main.async {
-                                    if success {
-                                        downloadAlert = true
-                                        print("Image successfully saved to Photos")
-                                    } else if let error = error {
-                                        print("Error saving image: \(error.localizedDescription)")
-                                        downloadAlert = false
-                                    }
+        interstitialAdsManager.displayInterstitialAd { [self] in
+            DispatchQueue.global(qos: .background).async {
+                let originalURL = self.imageData[self.currentImageIndex].highQualityUrl
+                
+                if let url = URL(string: originalURL ?? "N I L") {
+                    print("Downloading from URL: \(String(describing: originalURL))")
+                    URLSession.shared.dataTask(with: url) { data, response, error in
+                        if let data = data {
+                            PHPhotoLibrary.requestAuthorization { status in
+                                if status == .authorized {
+                                    PHPhotoLibrary.shared().performChanges({
+                                        let creationRequest = PHAssetCreationRequest.forAsset()
+                                        creationRequest.addResource(with:.photo, data: data, options: nil)
+                                    }, completionHandler: { success, error in
+                                        DispatchQueue.main.async {
+                                            if success {
+                                                self.downloadAlert = true
+                                                print("Image successfully saved to Photos")
+                                            } else if let error = error {
+                                                print("Error saving image: \(error.localizedDescription)")
+                                                self.downloadAlert = false
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    print("Photo library access denied")
                                 }
-                            })
-                        } else {
-                            print("Photo library access denied")
+                            }
+                        } else if let error = error {
+                            print("Error downloading image: \(error.localizedDescription)")
                         }
-                    }
-                } else if let error = error {
-                    print("Error downloading image: \(error.localizedDescription)")
+                    }.resume()
+                } else {
+                    print("Invalid URL: \(String(describing: originalURL))")
                 }
-            }.resume()
-        } else {
-            print("Invalid URL: \(String(describing: originalURL))")
+            }
         }
+    
     }
+}
+
+#Preview {
+    WallScreen(
+        imageData: [
+            ImageData(id: "669bc489286a8e2ed4518e50", highQualityUrl: "https://res.cloudinary.com/dq0rchxli/image/upload/v1721484420/mtv8gaafe8194vli019g.png", lowQualityUrl: "https://res.cloudinary.com/dq0rchxli/image/upload/v1721484423/zkyrtaofkrtbfjzmxpsz.png")
+        ],
+        currentImageIndex: 0
+    )
+    .environmentObject(InterstitialAdsManager())
 }

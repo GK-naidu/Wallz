@@ -21,7 +21,9 @@
 		9CAEB68E2C2D598F00605A45 /* Wallzit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAEB68D2C2D598F00605A45 /* Wallzit.swift */; };
 		9CAEB6922C2EE4E400605A45 /* TabBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAEB6912C2EE4E400605A45 /* TabBarTest.swift */; };
 		9CC1380C2BE3F69D00F6F0AF /* FeatureRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC1380B2BE3F69D00F6F0AF /* FeatureRequestView.swift */; };
-		9CD7D8962C53D2EA00F9C4F8 /* app-ads.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9CD7D8952C53D2EA00F9C4F8 /* app-ads.txt */; };
+		9CCBCFF62C5A18090056139A /* InterstitialAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCBCFF52C5A18090056139A /* InterstitialAdsManager.swift */; };
+		9CD13B1F2C56C92E0042FE21 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 9CD13B1E2C56C92E0042FE21 /* GoogleMobileAds */; };
+		9CD13B222C56D1D80042FE21 /* BannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD13B212C56D1D80042FE21 /* BannerView.swift */; };
 		9CD8F6E52B7936E100321E0F /* wallzApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8F6E42B7936E100321E0F /* wallzApp.swift */; };
 		9CD8F6E92B7936E300321E0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CD8F6E82B7936E300321E0F /* Assets.xcassets */; };
 		9CD8F6EC2B7936E300321E0F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CD8F6EB2B7936E300321E0F /* Preview Assets.xcassets */; };
@@ -45,7 +47,9 @@
 		9CAEB68D2C2D598F00605A45 /* Wallzit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallzit.swift; sourceTree = "<group>"; };
 		9CAEB6912C2EE4E400605A45 /* TabBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTest.swift; sourceTree = "<group>"; };
 		9CC1380B2BE3F69D00F6F0AF /* FeatureRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureRequestView.swift; sourceTree = "<group>"; };
-		9CD7D8952C53D2EA00F9C4F8 /* app-ads.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "app-ads.txt"; sourceTree = "<group>"; };
+		9CCBCFF52C5A18090056139A /* InterstitialAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdsManager.swift; sourceTree = "<group>"; };
+		9CD13B202C56CA690042FE21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9CD13B212C56D1D80042FE21 /* BannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerView.swift; sourceTree = "<group>"; };
 		9CD8F6E12B7936E100321E0F /* wallzyi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wallzyi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CD8F6E42B7936E100321E0F /* wallzApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wallzApp.swift; sourceTree = "<group>"; };
 		9CD8F6E82B7936E300321E0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -59,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CD13B1F2C56C92E0042FE21 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,12 +108,15 @@
 		9CD8F6E32B7936E100321E0F /* wallzyi */ = {
 			isa = PBXGroup;
 			children = (
+				9CD13B202C56CA690042FE21 /* Info.plist */,
 				9CAEB68A2C2D570400605A45 /* wallzyi.entitlements */,
 				9CD8F6E42B7936E100321E0F /* wallzApp.swift */,
 				9CAEB6912C2EE4E400605A45 /* TabBarTest.swift */,
 				9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */,
 				9CAEB6862C2C32C900605A45 /* PopularView.swift */,
 				9C9BE2E72B8A6EAF007185C2 /* WallScreen.swift */,
+				9CCBCFF52C5A18090056139A /* InterstitialAdsManager.swift */,
+				9CD13B212C56D1D80042FE21 /* BannerView.swift */,
 				9C0584D12C4A62A400C49658 /* ImageCache.swift */,
 				9CFB52F12C3F0D330048B07E /* FullscreenImageView.swift */,
 				9C01FF902C52C25600E08C90 /* MetalEffectView.swift */,
@@ -118,7 +126,6 @@
 				9C467BD02B8B48D400DC6D0C /* MyProfile.swift */,
 				9CC1380B2BE3F69D00F6F0AF /* FeatureRequestView.swift */,
 				9CAEB68D2C2D598F00605A45 /* Wallzit.swift */,
-				9CD7D8952C53D2EA00F9C4F8 /* app-ads.txt */,
 				9CD8F6E82B7936E300321E0F /* Assets.xcassets */,
 				9CD8F6EA2B7936E300321E0F /* Preview Content */,
 			);
@@ -150,6 +157,7 @@
 			);
 			name = wallzyi;
 			packageProductDependencies = (
+				9CD13B1E2C56C92E0042FE21 /* GoogleMobileAds */,
 			);
 			productName = wallz;
 			productReference = 9CD8F6E12B7936E100321E0F /* wallzyi.app */;
@@ -180,6 +188,7 @@
 			);
 			mainGroup = 9CD8F6D82B7936E100321E0F;
 			packageReferences = (
+				9CD13B1D2C56C92E0042FE21 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			productRefGroup = 9CD8F6E22B7936E100321E0F /* Products */;
 			projectDirPath = "";
@@ -195,7 +204,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CD7D8962C53D2EA00F9C4F8 /* app-ads.txt in Resources */,
 				9CD8F6EC2B7936E300321E0F /* Preview Assets.xcassets in Resources */,
 				9CD8F6E92B7936E300321E0F /* Assets.xcassets in Resources */,
 			);
@@ -208,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CCBCFF62C5A18090056139A /* InterstitialAdsManager.swift in Sources */,
 				9C0584D22C4A62A400C49658 /* ImageCache.swift in Sources */,
 				9C9F586B2BD65CE500CFDDB5 /* HomeOverlay.swift in Sources */,
 				9C01FF912C52C25600E08C90 /* MetalEffectView.swift in Sources */,
@@ -222,6 +231,7 @@
 				9CAEB6922C2EE4E400605A45 /* TabBarTest.swift in Sources */,
 				9CAEB6892C2D3BCF00605A45 /* CategoryGrid.swift in Sources */,
 				9C467BCF2B8B486E00DC6D0C /* FavouriteView.swift in Sources */,
+				9CD13B222C56D1D80042FE21 /* BannerView.swift in Sources */,
 				9CFB52F22C3F0D330048B07E /* FullscreenImageView.swift in Sources */,
 				9CAEB6872C2C32C900605A45 /* PopularView.swift in Sources */,
 				9C9BE2E82B8A6EAF007185C2 /* WallScreen.swift in Sources */,
@@ -363,9 +373,12 @@
 				DEVELOPMENT_TEAM = 767TND7ZLG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = wallzyi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = wallzyi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photo library to save downloaded images";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "his identifier will be used to deliver personalized ads to you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -379,7 +392,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = wallzyi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -406,9 +419,12 @@
 				DEVELOPMENT_TEAM = 767TND7ZLG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = wallzyi/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = wallzyi;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app needs access to your photo library to save downloaded images";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "his identifier will be used to deliver personalized ads to you";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -422,7 +438,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = wallzyi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -458,6 +474,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9CD13B1D2C56C92E0042FE21 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9CD13B1E2C56C92E0042FE21 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9CD13B1D2C56C92E0042FE21 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9CD8F6D92B7936E100321E0F /* Project object */;
 }

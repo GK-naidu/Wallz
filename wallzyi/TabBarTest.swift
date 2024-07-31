@@ -22,8 +22,10 @@ struct TabBarTest: View {
     @ViewBuilder
     func selectedTabView() -> some View {
         switch selectedTab {
+            
         case 0:
             categorygrid()
+            
         case 1:
             GeometryReader { geometry in
                 PopularView()
@@ -31,8 +33,10 @@ struct TabBarTest: View {
             }
         case 2:
             MyProfile()
+            
         default:
             categorygrid()
+            
         }
     }
 }

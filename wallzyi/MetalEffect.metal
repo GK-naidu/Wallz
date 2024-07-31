@@ -1,8 +1,8 @@
 #include <metal_stdlib>
 using namespace metal;
 
-constant float2 c_defaultLightPosition = float2(0.5, 0.5);
-constant float2 c_defaultVelocity = float2(0.0, 0.0);
+//constant float2 c_defaultLightPosition = float2(0.5, 0.5);
+//constant float2 c_defaultVelocity = float2(0.0, 0.0);
 
 half4 metalEffect(float2 p, texture2d<half> a, sampler s, float2 l, float2 v) {
     float2 m = -v * pow(clamp(1.0 - length(l - p) / 190.0, 0.0, 1.0), 2.0) * 1.5;

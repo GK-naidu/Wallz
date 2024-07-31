@@ -28,61 +28,68 @@ struct CategoryWall: View {
                 .blur(radius: 9)
                 .ignoresSafeArea()
             VStack {
-                AsyncImage(url: URL(string: categoryData?.lowQualityUrl ?? "")) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 250, height: 500)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
-                            .padding()
-                    } else {
-                        ProgressView()
-                            .frame(width: 250, height: 500)
-                            .padding()
-                    }
-                }
-                ZStack {
-                    RoundedRectangle(cornerRadius: 20)
-                        .frame(width: 250,height: 75)
-                        .foregroundStyle(Color.white)
-                    HStack {
-                        // Download button
-                        Button(action: {
-                            downloadImage()
-                        }) {
-                            RoundedRectangle(cornerRadius: 20)
-                                .overlay {
-                                    Image(systemName: "arrowshape.down.fill")
-                                        .foregroundStyle(Color.white)
-                                        .frame(width: 30, height: 30)
-                                }
-                                .foregroundStyle(Color.black)
-                                .frame(width: 50, height: 50)
+                HStack {
+                    AsyncImage(url: URL(string: categoryData?.lowQualityUrl ?? "")) { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 250, height: 500)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .padding()
+                        } else {
+                            ProgressView()
+                                .frame(width: 250, height: 500)
                                 .padding()
                         }
-                        .alert("Saved to Photos", isPresented: $downloadAlert) {
-                            Button("OK", role: .cancel) { }
+                    }
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 20)
+                            
+                            .foregroundStyle(Color.white)
+                        VStack {
+                            // Download button
+                            Button(action: {
+                                downloadImage()
+                            }) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .overlay {
+                                        Image(systemName: "arrowshape.down.fill")
+                                            .foregroundStyle(Color.white)
+                                            .frame(width: 30, height: 30)
+                                    }
+                                    .foregroundStyle(Color.black)
+                                    .frame(width: 50, height: 50)
+                                    
+                            }
+                            .alert("Saved to Photos", isPresented: $downloadAlert) {
+                                Button("OK", role: .cancel) { }
+                            }
+                            
+                            // Fullscreen button
+                            Button(action: {
+                                isFullscreen = true
+                            }) {
+                                RoundedRectangle(cornerRadius: 20)
+                                    .overlay {
+                                        Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                            .foregroundStyle(Color.white)
+                                            .frame(width: 30, height: 30)
+                                    }
+                                    .foregroundStyle(Color.black)
+                                    .frame(width: 50, height: 50)
+                                    
+                            }
                         }
+                        .padding()
                         
-                        // Fullscreen button
-                        Button(action: {
-                            isFullscreen = true
-                        }) {
-                            RoundedRectangle(cornerRadius: 20)
-                                .overlay {
-                                    Image(systemName: "arrow.up.left.and.arrow.down.right")
-                                        .foregroundStyle(Color.white)
-                                        .frame(width: 30, height: 30)
-                                }
-                                .foregroundStyle(Color.black)
-                                .frame(width: 50, height: 50)
-                                .padding()
-                        }
-                    }
-                    .padding()
-                    .ignoresSafeArea()
+                        
+                    }.frame(width: 50,height: 150)
                 }
+                
+                
+                BannerContentView()
+                    .frame(height: 50)
             }
             if isFullscreen {
                 FullscreenImageView(

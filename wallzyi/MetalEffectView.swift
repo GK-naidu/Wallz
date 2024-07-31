@@ -1,6 +1,8 @@
 import SwiftUI
 import MetalKit
 
+
+
 struct MetalEffectView: View {
     let image: Image
     @Binding var lightPosition: CGPoint

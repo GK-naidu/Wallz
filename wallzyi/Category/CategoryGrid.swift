@@ -98,7 +98,8 @@ struct categorygrid : View {
         }.scrollIndicators(.hidden)
             .background{
 
-                Color.black.ignoresSafeArea()
+                
+                Color.primary.ignoresSafeArea()
             }
             .onAppear{
                 shuffledCategories = categories.shuffled()
@@ -111,3 +112,6 @@ struct categorygrid : View {
 
 
 
+#Preview(body: {
+    categorygrid()
+})

@@ -99,7 +99,7 @@ struct categoryView: View {
     func loadcategoriesData(page: Int) {
         guard let category = selectedCategory else { return }
         let encodedCategory = category.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? category
-        let urlString = "https://wallzy.vercel.app/api/?page=\(page)&categories=\(encodedCategory.lowercased())"
+        let urlString = "https://wallzyi.vercel.app/api/?page=\(page)&categories=\(encodedCategory.lowercased())"
         print("URL: \(urlString)")
         
         guard let url = URL(string: urlString) else {
