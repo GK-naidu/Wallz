@@ -1,6 +1,7 @@
 import SwiftUI
 import Photos
 import UIKit
+import AVFoundation
 
 
 struct CategoryWall: View {
@@ -17,6 +18,7 @@ struct CategoryWall: View {
     @State private var goback: Bool = false
     @State private var isFullscreen: Bool = false
     @State private var currentImageIndex: Int = 0
+//    @EnvironmentObject var interstitialAdsManager: InterstitialAdsManager
     
     var allImageURLs: [URL] {
         return [categoryData].compactMap { $0 }.compactMap { URL(string: $0.lowQualityUrl ?? "") }
@@ -118,35 +120,53 @@ struct CategoryWall: View {
         
         print("Attempting to download from URL: \(url.absoluteString)")
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error downloading image: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let data = data else {
-                print("Error processing image data")
-                return
-            }
-            
-            PHPhotoLibrary.requestAuthorization { status in
-                if status == .authorized {
-                    PHPhotoLibrary.shared().performChanges({
-                        let creationRequest = PHAssetCreationRequest.forAsset()
-                        creationRequest.addResource(with: .photo, data: data, options: nil)
-                    }, completionHandler: { success, error in
-                        DispatchQueue.main.async {
-                            if success {
-                                downloadAlert = true
-                            } else if let error = error {
-                                print("Error saving image: \(error.localizedDescription)")
-                            }
-                        }
-                    })
-                } else {
-                    print("Photo library access denied")
+
+            URLSession.shared.dataTask(with: url) { [self] data, response, error in
+                if let error = error {
+                    print("Error downloading image: \(error.localizedDescription)")
+                    return
                 }
-            }
-        }.resume()
+                
+                guard let data = data else {
+                    print("Error processing image data")
+                    return
+                }
+                
+                PHPhotoLibrary.requestAuthorization { status in
+                    if status == .authorized {
+                        PHPhotoLibrary.shared().performChanges({
+                            let creationRequest = PHAssetCreationRequest.forAsset()
+                            creationRequest.addResource(with: .photo, data: data, options: nil)
+                        }, completionHandler: { success, error in
+                            DispatchQueue.main.async {
+                                if success {
+                                    self.downloadAlert = true
+                                    print("Image successfully saved to Photos")
+                                } else if let error = error {
+                                    print("Error saving image: \(error.localizedDescription)")
+                                }
+                            }
+                        })
+                    } else {
+                        print("Photo library access denied")
+                    }
+                }
+            }.resume()
+        
     }
 }
+
+#Preview {
+    CategoryWall(
+        categoryData: CategoryData(
+            id: "669bc489286a8e2ed4518e50", highQualityUrl: "https://res.cloudinary.com/dq0rchxli/image/upload/v1721484420/mtv8gaafe8194vli019g.png", lowQualityUrl: "https://res.cloudinary.com/dq0rchxli/image/upload/v1721484423/zkyrtaofkrtbfjzmxpsz.png"
+        ),
+        imageData: [
+            ImageData(id: "669bc489286a8e2ed4518e50", highQualityUrl: "https://res.cloudinary.com/dq0rchxli/image/upload/v1721484420/mtv8gaafe8194vli019g.png", lowQualityUrl: "https://res.cloudinary.com/dq0rchxli/image/upload/v1721484423/zkyrtaofkrtbfjzmxpsz.png")
+        ]
+     
+        
+    )
+}
+
+

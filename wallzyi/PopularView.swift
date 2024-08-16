@@ -1,8 +1,7 @@
+
 import SwiftUI
+import GoogleMobileAds
 
-
-
-// PopularView
 public struct PopularView: View {
     @State private var data: [ImageData] = []
     @State private var selectedImageIndex: Int?
@@ -12,68 +11,96 @@ public struct PopularView: View {
     private var offset = 0
     @State private var isLoadingMore: Bool = false
     @State private var isLoading = false
-    let coloursRandom : [Color] = [.white,.blue,.green,.pink]
-    @State private var BGColour : Color = .yellow
-    @State private var interstitialAdsManager = InterstitialAdsManager()
+    let coloursRandom: [Color] = [.white, .blue, .green, .pink]
+    @State private var BGColour: Color = .yellow
+//    @State private var interstitialAdsManager = InterstitialAdsManager()
+    
+    // Binding to control tab bar visibility
+    @Binding var isTabBarHidden: Bool
 
     let columns = [
         GridItem(),
         GridItem()
     ]
 
-    public init() {
+    public init(isTabBarHidden: Binding<Bool>) {
         page = Int.random(in: 1...141)
+        _isTabBarHidden = isTabBarHidden
     }
 
     public var body: some View {
         GeometryReader { geometry in
             ZStack {
                 Color.black.ignoresSafeArea()
-                
-                ScrollViewReader { scrollProxy in
-                    ScrollView {
-                        LazyVGrid(columns: columns, spacing: 10) {
-                            ForEach(Array(data.enumerated()), id: \.element.id) { index, item in
-                                NavigationLink(value: index) {
-                                    RemoteImage(url: item.lowQualityUrl ?? "nil")
-                                       .aspectRatio(contentMode:.fill)
-                                       .frame(width: 150, height: 350)
-                                       .clipShape(RoundedRectangle(cornerRadius: 20))
-                                       .shadow(radius: 9)
-                                       
-                                       .padding()
-                                }
-                               .id(item.id)
-                               .onAppear {
-                                    if index == data.count - 1 {
-                                        loadMoreImages()
-                                            
+
+                VStack {
+                    
+                    
+                    BannerContentView()
+                        .frame(height: 40)
+                    ScrollViewReader { scrollProxy in
+                        ScrollView {
+                            LazyVGrid(columns: columns, spacing: 10) {
+                                ForEach(Array(data.enumerated()), id: \.element.id) { index, item in
+                                    NavigationLink(value: index) {
+                                        RemoteImage(url: item.lowQualityUrl ?? "nil")
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 150, height: 350)
+                                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                                            .shadow(radius: 9)
+                                            .padding()
+                                    }
+                                    .id(item.id)
+                                    .onAppear {
+                                        if index == data.count - 1 {
+                                            loadMoreImages()
+                                        }
                                     }
                                 }
                             }
+                            .padding()
+                            .onScrollingChange(
+                                onScrollingDown: {
+                                    withAnimation(.spring()) {
+                                        isTabBarHidden = true
+                                    }
+                                },
+                                onScrollingUp: {
+                                    withAnimation(.spring()) {
+                                        isTabBarHidden = false
+                                    }
+                                },
+                                onScrollingStopped: {
+                                    withAnimation(.spring()) {
+                                        isTabBarHidden = false
+                                    }
+                                }
+                            )
                         }
-                       .padding()
-                    }
-                   .onAppear {
-                        if data.isEmpty {
-                            isLoading = true
-                            loadData(page: page)
-                                
+                        .onAppear {
+                            if data.isEmpty {
+                                isLoading = true
+                                loadData(page: page)
+                            }
                         }
+                        .scrollIndicators(.hidden)
                     }
-                   .scrollIndicators(.hidden)
-                }
-                if isLoading{
+                    
+
                     
                 }
+                
+                if isLoading {
+                    Text("Just a moment")
+                }
             }
-           .toolbar(.hidden)
-           .navigationDestination(for: Int.self) { index in
+            .toolbar(.hidden)
+            .navigationDestination(for: Int.self) { index in
                 WallScreen(imageData: data, currentImageIndex: index)
-                   .environmentObject(interstitialAdsManager)
-                   .onAppear{
-                       interstitialAdsManager.loadInterstitialAd()
-                   }
+//                    .environmentObject(interstitialAdsManager)
+                    .onAppear {
+//                        interstitialAdsManager.loadInterstitialAd()
+                    }
             }
         }
     }
@@ -98,9 +125,7 @@ public struct PopularView: View {
                         for image in decodedData {
                             let newImage = image
                             print("Image ID: \(newImage.id)")
-                            
                             print("--------------------")
-                            
                             newData.append(newImage)
                         }
                         self.data.append(contentsOf: newData)
@@ -109,24 +134,6 @@ public struct PopularView: View {
                     }
                 } catch {
                     print("Error decoding data: \(error)")
-                    if let decodingError = error as? DecodingError {
-                        switch decodingError {
-                        case.keyNotFound(let key, let context):
-                            print("Key '\(key)' not found:", context.debugDescription)
-                            print("codingPath:", context.codingPath)
-                        case.valueNotFound(let value, let context):
-                            print("Value '\(value)' not found:", context.debugDescription)
-                            print("codingPath:", context.codingPath)
-                        case.typeMismatch(let type, let context):
-                            print("Type '\(type)' mismatch:", context.debugDescription)
-                            print("codingPath:", context.codingPath)
-                        case.dataCorrupted(let context):
-                            print("Data corrupted:", context.debugDescription)
-                            print("codingPath:", context.codingPath)
-                        @unknown default:
-                            print("Unknown decoding error")
-                        }
-                    }
                     isLoadingMore = false
                     isLoading = false
                 }
@@ -135,12 +142,10 @@ public struct PopularView: View {
                 isLoadingMore = false
                 isLoading = false
             }
-        }
-      .resume()
+        }.resume()
     }
 }
 
 #Preview {
-    PopularView()
+    PopularView(isTabBarHidden: .constant(false))
 }
-                            

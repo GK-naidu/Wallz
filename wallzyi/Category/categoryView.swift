@@ -1,5 +1,6 @@
 import SwiftUI
-import Combine
+
+
 
 public class CategoryViewModel: ObservableObject {
     @Published var publishedCategory: String?
@@ -17,6 +18,7 @@ struct categoryView: View {
     @State private var backgroundImageName: String = "anime"
     @State private var page: Int = 1
     @State private var isLoadingMore: Bool = false
+    @State private var isLoading = false
     private let limit = 10
     
     let columns = [
@@ -30,7 +32,10 @@ struct categoryView: View {
     
     @State private var showWallscreen: Bool = false
     @State private var GoToCategoryWall: Bool = false
+
     
+
+
     public init(selectedCategory: Binding<String?>, categoryId: UUID) {
         self._selectedCategory = selectedCategory
         self.categoryId = categoryId
@@ -38,49 +43,63 @@ struct categoryView: View {
     
     public var body: some View {
         NavigationStack {
-            ZStack {
-                AsyncImage(url: URL(string: backgroundImageName)) { phase in
-                    if let image = phase.image {
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .blur(radius: 7)
-                            .ignoresSafeArea()
+            VStack {
+                ZStack {
+                    AsyncImage(url: URL(string: backgroundImageName)) { phase in
+                        if let image = phase.image {
+                            image
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .blur(radius: 7)
+                                .ignoresSafeArea()
+                        }
                     }
-                }
-                
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 10) {
-                        ForEach(Array(categoryData.enumerated()), id: \.element.id) { index, item in
-                            NavigationLink(value: item) {
-                                RemoteImage(url: (item.lowQualityUrl) ?? "Nil")
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 150, height: 350)
-                                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                                    .shadow(radius: 9)
-                                    .padding()
-                            }
-                            .simultaneousGesture(TapGesture().onEnded({ _ in
-                                selectedImage = item
-                                GoToCategoryWall = true
-                                showWallscreen = true
-                            }))
-                            .onAppear {
-                                if index == categoryData.count - 1 {
-                                    loadMoreImages()
+                    
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 10) {
+                            ForEach(Array(categoryData.enumerated()), id: \.element.id) { index, item in
+                                NavigationLink(value: item) {
+                                    RemoteImage(url: (item.lowQualityUrl) ?? "Nil")
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 150, height: 350)
+                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                                        .shadow(radius: 9)
+                                        .padding()
+                                }
+                                .simultaneousGesture(TapGesture().onEnded({ _ in
+                                    selectedImage = item
+                                    GoToCategoryWall = true
+                                    showWallscreen = true
+                                }))
+                                .onAppear {
+                                    if index == categoryData.count - 1 {
+                                        loadMoreImages()
+                                    }
                                 }
                             }
                         }
+                        .padding()
                     }
-                    .padding()
+                    .scrollIndicators(.hidden)
+                    .onAppear {
+                        updateBackgroundImage()
+                        if categoryData.isEmpty {
+                            loadcategoriesData(page: page)
+                            isLoading = true
+                        }
+                    }
                     
-                }
-                .scrollIndicators(.hidden)
-                .onAppear {
-                    updateBackgroundImage()
-                    if categoryData.isEmpty {
-                        loadcategoriesData(page: page)
+                    if isLoading {
+                        ProgressView {
+                            Text("Loading...")
+                        }
                     }
+                }
+                // Banner ad at the bottom
+                HStack {
+                    Spacer()
+                BannerContentView()
+                        .frame(height: 65)
                 }
             }
         }
@@ -117,6 +136,7 @@ struct categoryView: View {
             guard let data = data else {
                 print("No data returned")
                 isLoadingMore = false
+                isLoading = false
                 return
             }
             
@@ -125,6 +145,7 @@ struct categoryView: View {
                 DispatchQueue.main.async {
                     self.categoryData.append(contentsOf: decodedData)
                     self.isLoadingMore = false
+                    isLoading = false
                 }
             } catch {
                 print("Error decoding data: \(error)")
@@ -150,6 +171,7 @@ struct categoryView: View {
             }
         }.resume()
     }
+    
     
     private func updateBackgroundImage() {
         switch selectedCategory?.lowercased() {

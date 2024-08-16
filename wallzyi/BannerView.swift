@@ -16,7 +16,11 @@ struct BannerContentView_Previews: PreviewProvider {
 private struct BannerView: UIViewControllerRepresentable {
   @State private var viewWidth: CGFloat = .zero
   private let bannerView = GADBannerView()
-  private let adUnitID = "ca-app-pub-3940256099942544/2435281174"
+//  private let adUnitID = "ca-app-pub-7497020872960760/4972059103"
+    private let adUnitID = "ca-app-pub-7497020872960760/4972059103"
+ 
+       
+    
 
   func makeUIViewController(context: Context) -> some UIViewController {
     let bannerViewController = BannerViewController()
@@ -39,14 +43,14 @@ private struct BannerView: UIViewControllerRepresentable {
       bannerView.heightAnchor.constraint(equalToConstant: 50), // Fixed height
     ])
     bannerViewController.delegate = context.coordinator
-
+      bannerView.load(GADRequest())
     return bannerViewController
   }
 
   func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
     guard viewWidth != .zero else { return }
 
-    bannerView.load(GADRequest())
+    
   }
 
   func makeCoordinator() -> Coordinator {
@@ -75,9 +79,16 @@ private struct BannerView: UIViewControllerRepresentable {
       print("DID RECEIVE AD")
     }
 
-    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
-      print("DID NOT RECEIVE AD: \(error.localizedDescription)")
-    }
+      func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+          print("DID NOT RECEIVE AD: \(error.localizedDescription)")
+          print("Error description: \(error)")
+          
+          if let nsError = error as NSError? {
+              print("Error domain: \(nsError.domain)")
+              print("Error code: \(nsError.code)")
+              print("Error user info: \(nsError.userInfo)")
+          }
+      }
   }
 }
 
@@ -107,3 +118,11 @@ class BannerViewController: UIViewController {
     }
   }
 }
+
+
+
+
+
+    
+
+

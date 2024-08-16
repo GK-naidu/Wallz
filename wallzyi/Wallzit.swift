@@ -52,8 +52,8 @@ struct Size: Codable, Hashable {
 
 struct CategoryData: Identifiable, Decodable, Hashable {
     let id: String
-    let name: String
-    let url: String?
+//    let name: String
+//    let url: String?
     let highQualityUrl : String?
     let lowQualityUrl : String?
     
@@ -70,6 +70,6 @@ struct CategoryData: Identifiable, Decodable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case name, url , lowQualityUrl , highQualityUrl
+        case  lowQualityUrl , highQualityUrl
     }
 }

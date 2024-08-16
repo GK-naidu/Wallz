@@ -1,13 +1,12 @@
-
 import SwiftUI
-import UIKit
-struct Category: Identifiable,Hashable {
-    let id : UUID
+
+struct Category: Identifiable, Hashable {
+    let id: UUID
     let name: String
     let displayName: String
     let imageName: String
     
-    init(id: UUID,name: String) {
+    init(id: UUID, name: String) {
         self.id = id
         self.name = name
         self.displayName = name.capitalized
@@ -15,7 +14,7 @@ struct Category: Identifiable,Hashable {
     }
 }
 
-struct Categorygrid: View {
+struct categorygrid: View {
     let category: Category
     
     var body: some View {
@@ -28,90 +27,72 @@ struct Categorygrid: View {
             
             Text(category.displayName)
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(.yellow)
                 .padding(.vertical, 8)
                 .frame(maxWidth: .infinity)
-                .background(.ultraThinMaterial)
+                .background(Color.black)
         }
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .overlay(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(lineWidth: 0.5)
+                .stroke(Color.yellow, lineWidth: 0.5)
         )
         .padding(5)
     }
+    
 }
 
-struct categorygrid : View {
+struct CategoryGridView: View {
     @State private var selectedCategory : String?
-    @State private var shuffledCategories: [Category]
     
-    let columns = [GridItem(.adaptive(minimum: 150, maximum: 200))]
     let categories: [Category] = [
         Category(id: UUID(), name: "Abstract"),
         Category(id: UUID(), name: "Cars"),
-//        Category(id: UUID(), name: "Anime"),
         Category(id: UUID(), name: "Cityscapes"),
         Category(id: UUID(), name: "Cyberpunk"),
         Category(id: UUID(), name: "Amoled"),
-//        Category(id: UUID(), name: "Super Hero"),
         Category(id: UUID(), name: "Games"),
         Category(id: UUID(), name: "geometry"),
         Category(id: UUID(), name: "Minimal"),
-//        Category(id: UUID(), name: "Scenic"),
         Category(id: UUID(), name: "Music"),
-//        Category(id: UUID(), name: "Neon"),
         Category(id: UUID(), name: "Quotes"),
         Category(id: UUID(), name: "Space"),
-//        Category(id: UUID(), name: "Sports"),
         Category(id: UUID(), name: "Tech"),
         Category(id: UUID(), name: "Vaporwave")
     ]
-    init() {
-        UITabBar.appearance().scrollEdgeAppearance = UITabBarAppearance.init(idiom: .unspecified)
-        _shuffledCategories = State(initialValue: categories.shuffled())
-
-    }
+    
     var body: some View {
-        
+        NavigationStack {
         ScrollView {
-            ZStack {
-                
-                LazyVGrid(columns: columns) {
-                    ForEach(shuffledCategories) { category in
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 150, maximum: 200))]) {
+                ForEach(categories) { category in
+                    NavigationLink(
+                        destination: categoryView(selectedCategory: $selectedCategory,categoryId:category.id))
+                    {
                         
-                        NavigationLink(
-                            destination: categoryView(selectedCategory: $selectedCategory,categoryId:category.id))
-                        {
-
-                            Categorygrid(category: category)
-                            
-                        }
-                        .simultaneousGesture(TapGesture().onEnded({
-                            selectedCategory = category.name
-                        }))
+                        categorygrid(category: category)
+                        
                     }
+                    .simultaneousGesture(TapGesture().onEnded({
+                        selectedCategory = category.name
+                    }))
+                    
                 }
-                
             }
+            .padding()
+            .background(Color.black)
             
-        }.scrollIndicators(.hidden)
-            .background{
-
-                
-                Color.primary.ignoresSafeArea()
-            }
-            .onAppear{
-                shuffledCategories = categories.shuffled()
-            }
+        }
         
+        .scrollIndicators(.never)
+        .background(Color.black)
         
-        
+    }
     }
 }
 
-
-
-#Preview(body: {
-    categorygrid()
-})
+struct CategoryGridView_Previews: PreviewProvider {
+    static var previews: some View {
+        CategoryGridView()
+    }
+}

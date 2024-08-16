@@ -12,6 +12,7 @@
 		9C0584D22C4A62A400C49658 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0584D12C4A62A400C49658 /* ImageCache.swift */; };
 		9C12DAEE2BC06F9900180B6F /* CategoryWall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C12DAED2BC06F9900180B6F /* CategoryWall.swift */; };
 		9C43DCE62C5A60A60097ACF8 /* SkeletonCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C43DCE52C5A60A60097ACF8 /* SkeletonCellView.swift */; };
+		9C43DCEB2C5ABAD60097ACF8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9C43DCEA2C5ABAD60097ACF8 /* PrivacyInfo.xcprivacy */; };
 		9C467BCF2B8B486E00DC6D0C /* FavouriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */; };
 		9C467BD12B8B48D400DC6D0C /* MyProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C467BD02B8B48D400DC6D0C /* MyProfile.swift */; };
 		9C79B8012BD8000C006E2C82 /* LockOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C79B8002BD8000C006E2C82 /* LockOverlay.swift */; };
@@ -21,6 +22,9 @@
 		9CAEB6892C2D3BCF00605A45 /* CategoryGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAEB6882C2D3BCF00605A45 /* CategoryGrid.swift */; };
 		9CAEB68E2C2D598F00605A45 /* Wallzit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAEB68D2C2D598F00605A45 /* Wallzit.swift */; };
 		9CAEB6922C2EE4E400605A45 /* TabBarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAEB6912C2EE4E400605A45 /* TabBarTest.swift */; };
+		9CB6C07A2C692DD800C52FD6 /* animationtest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6C0792C692DD800C52FD6 /* animationtest.swift */; };
+		9CB6C07C2C6EBF6700C52FD6 /* IntroScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6C07B2C6EBF6700C52FD6 /* IntroScreenView.swift */; };
+		9CB6C07E2C6EDC1E00C52FD6 /* AppOpenAdManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CB6C07D2C6EDC1E00C52FD6 /* AppOpenAdManager.swift */; };
 		9CC1380C2BE3F69D00F6F0AF /* FeatureRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC1380B2BE3F69D00F6F0AF /* FeatureRequestView.swift */; };
 		9CCBCFF62C5A18090056139A /* InterstitialAdsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCBCFF52C5A18090056139A /* InterstitialAdsManager.swift */; };
 		9CD13B1F2C56C92E0042FE21 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 9CD13B1E2C56C92E0042FE21 /* GoogleMobileAds */; };
@@ -32,12 +36,26 @@
 		9CFB52F22C3F0D330048B07E /* FullscreenImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFB52F12C3F0D330048B07E /* FullscreenImageView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9C43DCF12C5BA41E0097ACF8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		9C01FF8E2C52BEA500E08C90 /* MetalEffect.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = MetalEffect.metal; sourceTree = "<group>"; };
 		9C01FF902C52C25600E08C90 /* MetalEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalEffectView.swift; sourceTree = "<group>"; };
 		9C0584D12C4A62A400C49658 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		9C12DAED2BC06F9900180B6F /* CategoryWall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryWall.swift; sourceTree = "<group>"; };
 		9C43DCE52C5A60A60097ACF8 /* SkeletonCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCellView.swift; sourceTree = "<group>"; };
+		9C43DCEA2C5ABAD60097ACF8 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteView.swift; sourceTree = "<group>"; };
 		9C467BD02B8B48D400DC6D0C /* MyProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfile.swift; sourceTree = "<group>"; };
 		9C79B8002BD8000C006E2C82 /* LockOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockOverlay.swift; sourceTree = "<group>"; };
@@ -48,6 +66,9 @@
 		9CAEB68A2C2D570400605A45 /* wallzyi.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = wallzyi.entitlements; sourceTree = "<group>"; };
 		9CAEB68D2C2D598F00605A45 /* Wallzit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallzit.swift; sourceTree = "<group>"; };
 		9CAEB6912C2EE4E400605A45 /* TabBarTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarTest.swift; sourceTree = "<group>"; };
+		9CB6C0792C692DD800C52FD6 /* animationtest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = animationtest.swift; sourceTree = "<group>"; };
+		9CB6C07B2C6EBF6700C52FD6 /* IntroScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroScreenView.swift; sourceTree = "<group>"; };
+		9CB6C07D2C6EDC1E00C52FD6 /* AppOpenAdManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppOpenAdManager.swift; sourceTree = "<group>"; };
 		9CC1380B2BE3F69D00F6F0AF /* FeatureRequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureRequestView.swift; sourceTree = "<group>"; };
 		9CCBCFF52C5A18090056139A /* InterstitialAdsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterstitialAdsManager.swift; sourceTree = "<group>"; };
 		9CD13B202C56CA690042FE21 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -111,15 +132,19 @@
 			isa = PBXGroup;
 			children = (
 				9CD13B202C56CA690042FE21 /* Info.plist */,
+				9C43DCEA2C5ABAD60097ACF8 /* PrivacyInfo.xcprivacy */,
 				9CAEB68A2C2D570400605A45 /* wallzyi.entitlements */,
 				9CD8F6E42B7936E100321E0F /* wallzApp.swift */,
 				9CAEB6912C2EE4E400605A45 /* TabBarTest.swift */,
+				9CB6C07B2C6EBF6700C52FD6 /* IntroScreenView.swift */,
 				9C467BCE2B8B486E00DC6D0C /* FavouriteView.swift */,
 				9CAEB6862C2C32C900605A45 /* PopularView.swift */,
 				9C43DCE52C5A60A60097ACF8 /* SkeletonCellView.swift */,
 				9C9BE2E72B8A6EAF007185C2 /* WallScreen.swift */,
 				9CCBCFF52C5A18090056139A /* InterstitialAdsManager.swift */,
 				9CD13B212C56D1D80042FE21 /* BannerView.swift */,
+				9CB6C07D2C6EDC1E00C52FD6 /* AppOpenAdManager.swift */,
+				9CB6C0792C692DD800C52FD6 /* animationtest.swift */,
 				9C0584D12C4A62A400C49658 /* ImageCache.swift */,
 				9CFB52F12C3F0D330048B07E /* FullscreenImageView.swift */,
 				9C01FF902C52C25600E08C90 /* MetalEffectView.swift */,
@@ -153,6 +178,7 @@
 				9CD8F6DD2B7936E100321E0F /* Sources */,
 				9CD8F6DE2B7936E100321E0F /* Frameworks */,
 				9CD8F6DF2B7936E100321E0F /* Resources */,
+				9C43DCF12C5BA41E0097ACF8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -207,6 +233,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C43DCEB2C5ABAD60097ACF8 /* PrivacyInfo.xcprivacy in Resources */,
 				9CD8F6EC2B7936E300321E0F /* Preview Assets.xcassets in Resources */,
 				9CD8F6E92B7936E300321E0F /* Assets.xcassets in Resources */,
 			);
@@ -226,13 +253,16 @@
 				9C01FF8F2C52BEA500E08C90 /* MetalEffect.metal in Sources */,
 				9C12DAEE2BC06F9900180B6F /* CategoryWall.swift in Sources */,
 				9CE736692BBBED3B00F8002E /* categoryView.swift in Sources */,
+				9CB6C07A2C692DD800C52FD6 /* animationtest.swift in Sources */,
 				9CAEB68E2C2D598F00605A45 /* Wallzit.swift in Sources */,
 				9CC1380C2BE3F69D00F6F0AF /* FeatureRequestView.swift in Sources */,
+				9CB6C07E2C6EDC1E00C52FD6 /* AppOpenAdManager.swift in Sources */,
 				9CD8F6E52B7936E100321E0F /* wallzApp.swift in Sources */,
 				9C467BD12B8B48D400DC6D0C /* MyProfile.swift in Sources */,
 				9C79B8012BD8000C006E2C82 /* LockOverlay.swift in Sources */,
 				9CAEB6922C2EE4E400605A45 /* TabBarTest.swift in Sources */,
 				9C43DCE62C5A60A60097ACF8 /* SkeletonCellView.swift in Sources */,
+				9CB6C07C2C6EBF6700C52FD6 /* IntroScreenView.swift in Sources */,
 				9CAEB6892C2D3BCF00605A45 /* CategoryGrid.swift in Sources */,
 				9C467BCF2B8B486E00DC6D0C /* FavouriteView.swift in Sources */,
 				9CD13B222C56D1D80042FE21 /* BannerView.swift in Sources */,
@@ -396,7 +426,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = wallzyi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -442,7 +472,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = wallzyi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
